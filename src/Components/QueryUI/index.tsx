@@ -1,7 +1,7 @@
-import { Input, Descriptions, Select, Button, Slider, Space } from 'antd'
+import { Input, Descriptions, Select, Button, Slider } from 'antd'
 import React from 'react'
 
-const { Option, OptGroup } = Select
+const { Option } = Select
 
 const SelectBefore = (
     <Select defaultValue="GET">
