@@ -5,7 +5,7 @@ import headers from '../../ResourcesConfig.json';
 const { Option } = Select
 
 type QueryData = {
-    serverURL: string; ResourceType: string; id: string; token: string; sortBy: string; pageCount: number
+    URL: string; serverURL: string; ResourceType: string; id: string; token: string; sortBy: string; pageCount: number
 }
 
 const SelectBefore = (
@@ -60,24 +60,26 @@ const ResourceType = (props: { data: QueryData, setData: any }) => {
 
 const QueryUI = () => {
     const [data, setData] = useState<QueryData>({
+        URL: "",
         serverURL: "",
         ResourceType: Object.entries(headers.Resources)[0][0],
         id: "",
         token: "",
-        sortBy: "",
+        sortBy: Object.entries(headers.Resources)[0][1][0],
         pageCount: 20
     });
 
     useEffect(() => {
-        //console.log(data)
-    }, [data])
+        if(data.id) setData({ ...data, URL: `${data.serverURL}/${data.ResourceType}/${data.id}` })
+        else setData({ ...data, URL: `${data.serverURL}/${data.ResourceType}` })
+    }, [data.serverURL, data.ResourceType, data.sortBy, data.pageCount, data.id])
 
 
     return (
         <Descriptions title="RedPanda" bordered>
             <Descriptions.Item label="URL" span={3}>
                 <Input.Group>
-                    <Input addonBefore={SelectBefore} style={{ width: '80%', marginRight: '1rem' }} disabled />
+                    <Input addonBefore={SelectBefore} style={{ width: '80%', marginRight: '1rem' }} value={data.URL} disabled />
                     <Button type="primary" style={{ marginRight: '1rem' }}>
                         Send
                     </Button>
