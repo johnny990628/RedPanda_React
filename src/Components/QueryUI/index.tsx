@@ -36,8 +36,12 @@ const SortBySelect = (props: { data: QueryData, setData: any }) => {
             style={{ width: '100%' }}
             filterOption={(input, option) => (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())}
         >
-            {headers.Resources[props.data.ResourceType].map((item: string) => {
-                return <Option value={item} key={item}>{item}</Option>
+            {Object.entries(headers.Resources).map((item: any) => {
+                if (item[0] === props.data.ResourceType) {
+                    return (item[1].map((item2: string) => {
+                        return <Option value={item2} key={item2}>{item2}</Option>
+                    }))
+                }
             })}
         </Select>
     )
@@ -65,7 +69,7 @@ const QueryUI = () => {
     });
 
     useEffect(() => {
-        console.log(data)
+        //console.log(data)
     }, [data])
 
 
