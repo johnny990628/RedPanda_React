@@ -1,0 +1,77 @@
+{
+    "Resources": {
+        "Patient": [
+            "id",
+            "birthDate",
+            "gender",
+            "identifier",
+            "name"
+        ],
+        "Condition": [
+            "id",
+            "clinical-status",
+            "code",
+            "subject",
+            "onset-date",
+            "abatement-date",
+            "severity"
+        ],
+        "DiagnosticReport": [
+            "id",
+            "status",
+            "subject",
+            "category",
+            "code",
+            "date"
+        ],
+        "Encounter": [
+            "id",
+            "class",
+            "date",
+            "identifier",
+            "location",
+            "subject",
+            "status"
+        ],
+        "Medication": [
+            "id",
+            "code"
+        ],
+        "MedicationRequest": [
+            "id",
+            "status",
+            "intent",
+            "subject",
+            "medication",
+            "encounter",
+            "authoredon"
+        ],
+        "Observation": [
+            "id",
+            "category",
+            "code",
+            "date",
+            "performer",
+            "status",
+            "subject"
+        ],
+        "Organization": [
+            "id",
+            "identifier",
+            "name",
+            "type"
+        ],
+        "Practitioner": [
+            "id",
+            "identifier",
+            "name"
+        ],
+        "Procedure": [
+            "id",
+            "code",
+            "status",
+            "subject",
+            "date"
+        ]
+    }
+}
