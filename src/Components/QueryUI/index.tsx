@@ -4,6 +4,10 @@ import headers from '../../ResourcesConfig.json';
 
 const { Option } = Select
 
+type QueryData = {
+    serverURL: string; ResourceType: string; id: string; token: string; sortBy: string; pageCount: number
+}
+
 const SelectBefore = (
     <Select defaultValue="GET">
         <Option value="GET">GET</Option>
@@ -13,7 +17,7 @@ const SelectBefore = (
     </Select>
 )
 
-const SortBySelect = (props: { data: any, setData: any }) => {
+const SortBySelect = (props: { data: QueryData, setData: any }) => {
     const onChange = (value: string) => {
         props.setData({ ...props.data, sortBy: value })
     }
@@ -21,7 +25,6 @@ const SortBySelect = (props: { data: any, setData: any }) => {
         console.log('search:', value)
     }
 
-    const ResourceType: string = props.data.resourceType
     return (
         <Select
             showSearch
@@ -33,14 +36,14 @@ const SortBySelect = (props: { data: any, setData: any }) => {
             style={{ width: '100%' }}
             filterOption={(input, option) => (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())}
         >
-            {headers.Resources[ResourceType].map((item: string) => {
+            {headers.Resources[props.data.ResourceType].map((item: string) => {
                 return <Option value={item} key={item}>{item}</Option>
             })}
         </Select>
     )
 }
 
-const ResourceType = (props: { data: any, setData: any }) => {
+const ResourceType = (props: { data: QueryData, setData: any }) => {
     //Object.entries(headers.Resources) -->[Array(2), Array(2).......-->['Patient', Array(5)]
     return (
         <Select defaultValue={Object.entries(headers.Resources)[0][0]} showSearch style={{ width: "100%" }} onChange={(e) => props.setData({ ...props.data, ResourceType: e })}>
@@ -52,7 +55,7 @@ const ResourceType = (props: { data: any, setData: any }) => {
 }
 
 const QueryUI = () => {
-    const [data, setData] = useState<{ serverURL: string; ResourceType: string; id: string; token: string; sortBy: string; pageCount: number }>({
+    const [data, setData] = useState<QueryData>({
         serverURL: "",
         ResourceType: Object.entries(headers.Resources)[0][0],
         id: "",
