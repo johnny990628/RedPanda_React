@@ -1,11 +1,17 @@
 import { Input, Descriptions, Select, Button, Slider } from 'antd'
 import React, { useState, useEffect } from 'react'
-import headers from '../../ResourcesConfig.json';
+import RESOURCES from '../../Resources.config.json'
 
 const { Option } = Select
 
 type QueryData = {
-    URL: string; serverURL: string; ResourceType: string; id: string; token: string; sortBy: string; pageCount: number
+    URL: string
+    serverURL: string
+    ResourceType: string
+    id: string
+    token: string
+    sortBy: string
+    pageCount: number
 }
 
 const SelectBefore = (
@@ -17,9 +23,9 @@ const SelectBefore = (
     </Select>
 )
 
-const SortBySelect = (props: { data: QueryData, setData: any }) => {
+const SortBySelect = ({ data, setData }: { data: QueryData; setData: any }) => {
     const onChange = (value: string) => {
-        props.setData({ ...props.data, sortBy: value })
+        setData({ ...data, sortBy: value })
     }
     const onSearch = (value: string) => {
         console.log('search:', value)
@@ -32,48 +38,52 @@ const SortBySelect = (props: { data: QueryData, setData: any }) => {
             optionFilterProp="children"
             onChange={onChange}
             onSearch={onSearch}
-            defaultValue={headers.Resources['Patient'][0]}
+            defaultValue={RESOURCES[0].cols[0]}
             style={{ width: '100%' }}
             filterOption={(input, option) => (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())}
         >
-            {Object.entries(headers.Resources).map((item: any) => {
-                if (item[0] === props.data.ResourceType) {
-                    return (item[1].map((item2: string) => {
-                        return <Option value={item2} key={item2}>{item2}</Option>
-                    }))
-                }
-            })}
+            {RESOURCES.map(
+                ({ type, cols }) =>
+                    type === data.ResourceType &&
+                    cols.map(col => (
+                        <Option value={col} key={col}>
+                            {col}
+                        </Option>
+                    ))
+            )}
         </Select>
     )
 }
 
-const ResourceType = (props: { data: QueryData, setData: any }) => {
-    //Object.entries(headers.Resources) -->[Array(2), Array(2).......-->['Patient', Array(5)]
+const ResourceType = ({ data, setData }: { data: QueryData; setData: any }) => {
     return (
-        <Select defaultValue={Object.entries(headers.Resources)[0][0]} showSearch style={{ width: "100%" }} onChange={(e) => props.setData({ ...props.data, ResourceType: e })}>
-            {Object.entries(headers.Resources).map((item) => {
-                return <Option value={item[0]} key={item[0]}>{item[0]}</Option>
-            })}
+        <Select defaultValue={RESOURCES[0].type} showSearch style={{ width: '100%' }} onChange={e => setData({ ...data, ResourceType: e })}>
+            {RESOURCES.map(({ type }) => (
+                <Option value={type} key={type}>
+                    {type}
+                </Option>
+            ))}
         </Select>
     )
 }
 
 const QueryUI = () => {
     const [data, setData] = useState<QueryData>({
-        URL: "",
-        serverURL: "",
-        ResourceType: Object.entries(headers.Resources)[0][0],
-        id: "",
-        token: "",
-        sortBy: Object.entries(headers.Resources)[0][1][0],
-        pageCount: 20
-    });
+        URL: '',
+        serverURL: '',
+        ResourceType: RESOURCES[0].type,
+        id: '',
+        token: '',
+        sortBy: 'id',
+        pageCount: 20,
+    })
 
     useEffect(() => {
-        if(data.id) setData({ ...data, URL: `${data.serverURL}/${data.ResourceType}/${data.id}` })
-        else setData({ ...data, URL: `${data.serverURL}/${data.ResourceType}` })
+        const newData = data.id
+            ? { ...data, URL: `${data.serverURL}/${data.ResourceType}/${data.id}` }
+            : { ...data, URL: `${data.serverURL}/${data.ResourceType}` }
+        setData(newData)
     }, [data.serverURL, data.ResourceType, data.sortBy, data.pageCount, data.id])
-
 
     return (
         <Descriptions title="RedPanda" bordered>
@@ -89,16 +99,16 @@ const QueryUI = () => {
                 </Input.Group>
             </Descriptions.Item>
             <Descriptions.Item label="Server URL">
-                <Input defaultValue="https://" onChange={(e) => setData({ ...data, serverURL: e.target.value })} />
+                <Input defaultValue="https://" onChange={e => setData({ ...data, serverURL: e.target.value })} />
             </Descriptions.Item>
             <Descriptions.Item label="Resource Type">
                 <ResourceType data={data} setData={setData} />
             </Descriptions.Item>
             <Descriptions.Item label="ID">
-                <Input onChange={(e) => setData({ ...data, id: e.target.value })} />
+                <Input onChange={e => setData({ ...data, id: e.target.value })} />
             </Descriptions.Item>
             <Descriptions.Item label="Token">
-                <Input onChange={(e) => setData({ ...data, token: e.target.value })} />
+                <Input onChange={e => setData({ ...data, token: e.target.value })} />
             </Descriptions.Item>
             <Descriptions.Item label="Sort By">
                 <SortBySelect data={data} setData={setData} />

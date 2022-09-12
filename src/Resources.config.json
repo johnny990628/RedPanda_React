@@ -1,0 +1,42 @@
+[
+    {
+        "type": "Patient",
+        "cols": ["id", "birthDate", "gender", "identifier", "name"]
+    },
+    {
+        "type": "Condition",
+        "cols": ["id", "clinical-status", "code", "subject", "onset-date", "abatement-date", "severity"]
+    },
+    {
+        "type": "DiagnosticReport",
+        "cols": ["id", "status", "subject", "category", "code", "date"]
+    },
+    {
+        "type": "Encounter",
+        "cols": ["id", "class", "date", "identifier", "location", "subject", "status"]
+    },
+    {
+        "type": "Medication",
+        "cols": ["id", "code"]
+    },
+    {
+        "type": "MedicationRequest",
+        "cols": ["id", "status", "intent", "subject", "medication", "encounter", "authoredon"]
+    },
+    {
+        "type": "Observation",
+        "cols": ["id", "category", "code", "date", "performer", "status", "subject"]
+    },
+    {
+        "type": "Organization",
+        "cols": ["id", "identifier", "name", "type"]
+    },
+    {
+        "type": "Practitioner",
+        "cols": ["id", "identifier", "name"]
+    },
+    {
+        "type": "Procedure",
+        "cols": ["id", "code", "status", "subject", "date"]
+    }
+]
