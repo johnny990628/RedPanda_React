@@ -1,4 +1,5 @@
-import { Input, Descriptions, Select, Button, Slider } from 'antd'
+import { Input, Descriptions, Select, Button, Slider, Form, Space } from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import React, { useState, useEffect } from 'react'
 import RESOURCES from '../../Resources.config.json'
 import { GET, getSetting, init } from '../../httpRequest'
@@ -15,10 +16,14 @@ type QueryData = {
     pageCount: number
     parameters: object[]
 }
+type ColumnType = {
+    label: string
+    key: string
+}
 
 type ResourceType = {
     type: string
-    cols: string[]
+    cols: ColumnType[]
 }
 
 const SelectBefore = (
@@ -35,7 +40,7 @@ const SortBySelector = ({
     value,
     valueOnChange,
 }: {
-    options: string[] | undefined
+    options: ColumnType[] | undefined
     value: string
     valueOnChange: (type: string, value: string) => void
 }) => {
@@ -49,9 +54,9 @@ const SortBySelector = ({
             style={{ width: '100%' }}
             filterOption={(input, option) => (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())}
         >
-            {options?.map(col => (
-                <Option value={col} key={col}>
-                    {col}
+            {options?.map(({ label, key }) => (
+                <Option value={label} key={key}>
+                    {label}
                 </Option>
             ))}
         </Select>
@@ -72,25 +77,67 @@ const ResourceTypeSelector = ({ value, valueOnChange }: { value: string; valueOn
 
 const SearchParameterSelector = ({
     options,
-    value,
     valueOnChange,
 }: {
     options: ResourceType[]
-    value: string
     valueOnChange: (type: string, value: string) => void
 }) => {
     return (
-        <Select value={value} showSearch style={{ width: '100%' }} onChange={e => valueOnChange('resourceType', e)}>
-            {options?.map(({ type, cols }) => (
-                <OptGroup label={type} key={type}>
-                    {cols.map(col => (
-                        <Option value={col} key={col}>
-                            {col}
-                        </Option>
-                    ))}
-                </OptGroup>
-            ))}
-        </Select>
+        <Form>
+            <Form.List name="parameters">
+                {(fields, { add, remove }) => (
+                    <Space direction="vertical">
+                        {fields.map((field, index) => (
+                            <Space align="baseline">
+                                <Form.Item
+                                    {...field}
+                                    validateTrigger={['onChange', 'onBlur']}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please fill or delete this field.',
+                                        },
+                                    ]}
+                                    name={[field.name, 'parameter']}
+                                >
+                                    <Select showSearch style={{ minWidth: '10rem' }} onChange={e => valueOnChange('resourceType', e)}>
+                                        {options?.map(({ type, cols }) => (
+                                            <OptGroup label={type} key={type}>
+                                                {cols.map(({ label, key }) => (
+                                                    <Option value={key} key={key}>
+                                                        {label}
+                                                    </Option>
+                                                ))}
+                                            </OptGroup>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    {...field}
+                                    validateTrigger={['onChange', 'onBlur']}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please fill or delete this field.',
+                                        },
+                                    ]}
+                                    name={[field.name, 'value']}
+                                >
+                                    <Input />
+                                </Form.Item>
+
+                                <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
+                            </Space>
+                        ))}
+                        <Form.Item>
+                            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                Add Parameter
+                            </Button>
+                        </Form.Item>
+                    </Space>
+                )}
+            </Form.List>
+        </Form>
     )
 }
 const QueryUI = () => {
@@ -165,8 +212,8 @@ const QueryUI = () => {
             <Descriptions.Item label="Page Count">
                 <Slider value={data.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
             </Descriptions.Item>
-            <Descriptions.Item label="Page Count">
-                <SearchParameterSelector options={RESOURCES} value={data.sortBy} valueOnChange={valueOnChange} />
+            <Descriptions.Item label="Search Parameters" span={2}>
+                <SearchParameterSelector options={RESOURCES} valueOnChange={valueOnChange} />
             </Descriptions.Item>
         </Descriptions>
     )
