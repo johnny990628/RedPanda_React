@@ -1,13 +1,14 @@
 import { Input, Descriptions, Select, Button, Slider } from 'antd'
 import React, { useState, useEffect } from 'react'
 import RESOURCES from '../../Resources.config.json'
+import { GET, getSetting, init } from '../../httpRequest'
 
 const { Option } = Select
 
 type QueryData = {
     URL: string
     serverURL: string
-    ResourceType: string
+    resourceType: string
     id: string
     token: string
     sortBy: string
@@ -23,41 +24,37 @@ const SelectBefore = (
     </Select>
 )
 
-const SortBySelect = ({ data, setData }: { data: QueryData; setData: any }) => {
-    const onChange = (value: string) => {
-        setData({ ...data, sortBy: value })
-    }
-    const onSearch = (value: string) => {
-        console.log('search:', value)
-    }
-
+const SortBySelector = ({
+    options,
+    value,
+    valueOnChange,
+}: {
+    options: string[] | undefined
+    value: string
+    valueOnChange: (type: string, value: string) => void
+}) => {
     return (
         <Select
             showSearch
-            placeholder="Select a person"
+            placeholder="Select a sortBy"
             optionFilterProp="children"
-            onChange={onChange}
-            onSearch={onSearch}
-            defaultValue={RESOURCES[0].cols[0]}
+            onChange={value => valueOnChange('sortBy', value)}
+            value={value}
             style={{ width: '100%' }}
             filterOption={(input, option) => (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())}
         >
-            {RESOURCES.map(
-                ({ type, cols }) =>
-                    type === data.ResourceType &&
-                    cols.map(col => (
-                        <Option value={col} key={col}>
-                            {col}
-                        </Option>
-                    ))
-            )}
+            {options?.map(col => (
+                <Option value={col} key={col}>
+                    {col}
+                </Option>
+            ))}
         </Select>
     )
 }
 
-const ResourceType = ({ data, setData }: { data: QueryData; setData: any }) => {
+const ResourceTypeSelector = ({ value, valueOnChange }: { value: string; valueOnChange: (type: string, value: string) => void }) => {
     return (
-        <Select defaultValue={RESOURCES[0].type} showSearch style={{ width: '100%' }} onChange={e => setData({ ...data, ResourceType: e })}>
+        <Select value={value} showSearch style={{ width: '100%' }} onChange={e => valueOnChange('resourceType', e)}>
             {RESOURCES.map(({ type }) => (
                 <Option value={type} key={type}>
                     {type}
@@ -68,53 +65,75 @@ const ResourceType = ({ data, setData }: { data: QueryData; setData: any }) => {
 }
 
 const QueryUI = () => {
-    const [data, setData] = useState<QueryData>({
-        URL: '',
-        serverURL: '',
-        ResourceType: RESOURCES[0].type,
+    const initialData: QueryData = {
+        URL: 'https://',
+        serverURL: 'https://',
+        resourceType: RESOURCES[0].type,
         id: '',
         token: '',
         sortBy: 'id',
         pageCount: 20,
-    })
+    }
+    const [data, setData] = useState<QueryData>(initialData)
 
-    useEffect(() => {
-        const newData = data.id
-            ? { ...data, URL: `${data.serverURL}/${data.ResourceType}/${data.id}` }
-            : { ...data, URL: `${data.serverURL}/${data.ResourceType}` }
-        setData(newData)
-    }, [data.serverURL, data.ResourceType, data.sortBy, data.pageCount, data.id])
+    const sendRequest = () => {
+        init({ server: data.serverURL, token: data.token })
+        GET(data.resourceType).then(res => console.log(res))
+    }
+
+    const valueOnChange = (columnName: string, value: string | number): void => {
+        const serverURL = columnName === 'serverURL' ? value : data.serverURL
+        const resourceType = columnName === 'resourceType' ? value : data.resourceType
+        const id = columnName === 'id' ? value : data.id
+        const URL = `${serverURL}/${resourceType}/${id}`
+
+        const sortBy = columnName === 'resourceType' ? 'id' : data.sortBy
+        setData({
+            ...data,
+            URL,
+            sortBy,
+            [columnName]: value,
+        })
+    }
+
+    const onReset = () => {
+        setData(initialData)
+    }
 
     return (
         <Descriptions title="RedPanda" bordered>
             <Descriptions.Item label="URL" span={3}>
                 <Input.Group>
-                    <Input addonBefore={SelectBefore} style={{ width: '80%', marginRight: '1rem' }} value={data.URL} disabled />
-                    <Button type="primary" style={{ marginRight: '1rem' }}>
+                    <Input addonBefore={SelectBefore} style={{ width: '80%', marginRight: '1rem' }} value={data.URL} readOnly />
+                    <Button type="primary" style={{ marginRight: '1rem' }} onClick={sendRequest}>
                         Send
                     </Button>
-                    <Button type="primary" danger>
+                    <Button type="primary" danger onClick={onReset}>
                         Reset
                     </Button>
                 </Input.Group>
             </Descriptions.Item>
             <Descriptions.Item label="Server URL">
-                <Input defaultValue="https://" onChange={e => setData({ ...data, serverURL: e.target.value })} />
+                <Input value={data.serverURL} onChange={e => valueOnChange('serverURL', e.target.value)} />
             </Descriptions.Item>
             <Descriptions.Item label="Resource Type">
-                <ResourceType data={data} setData={setData} />
+                <ResourceTypeSelector value={data.resourceType} valueOnChange={valueOnChange} />
             </Descriptions.Item>
             <Descriptions.Item label="ID">
-                <Input onChange={e => setData({ ...data, id: e.target.value })} />
+                <Input onChange={e => valueOnChange('id', e.target.value)} />
             </Descriptions.Item>
             <Descriptions.Item label="Token">
-                <Input onChange={e => setData({ ...data, token: e.target.value })} />
+                <Input onChange={e => valueOnChange('token', e.target.value)} />
             </Descriptions.Item>
             <Descriptions.Item label="Sort By">
-                <SortBySelect data={data} setData={setData} />
+                <SortBySelector
+                    options={RESOURCES.find(r => r.type === data.resourceType)?.cols}
+                    value={data.sortBy}
+                    valueOnChange={valueOnChange}
+                />
             </Descriptions.Item>
             <Descriptions.Item label="Page Count">
-                <Slider defaultValue={20} min={5} max={200} step={5} />
+                <Slider value={data.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
             </Descriptions.Item>
         </Descriptions>
     )
