@@ -100,11 +100,11 @@ const SearchParameterSelector = ({
                                     ]}
                                     name={[field.name, 'parameter']}
                                 >
-                                    <Select showSearch style={{ minWidth: '10rem' }} onChange={e => valueOnChange('resourceType', e)}>
+                                    <Select showSearch style={{ minWidth: '10rem' }} onChange={value => valueOnChange('parameter', value)}>
                                         {options?.map(({ type, cols }) => (
                                             <OptGroup label={type} key={type}>
                                                 {cols.map(({ label, key }) => (
-                                                    <Option value={key} key={key}>
+                                                    <Option value={label} key={key}>
                                                         {label}
                                                     </Option>
                                                 ))}
