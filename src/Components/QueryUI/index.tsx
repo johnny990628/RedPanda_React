@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import RESOURCES from '../../Resources.config.json'
 import { GET, getSetting, init } from '../../httpRequest'
 
-const { Option } = Select
+const { Option, OptGroup } = Select
 
 type QueryData = {
     URL: string
@@ -13,6 +13,12 @@ type QueryData = {
     token: string
     sortBy: string
     pageCount: number
+    parameters: object[]
+}
+
+type ResourceType = {
+    type: string
+    cols: string[]
 }
 
 const SelectBefore = (
@@ -64,6 +70,29 @@ const ResourceTypeSelector = ({ value, valueOnChange }: { value: string; valueOn
     )
 }
 
+const SearchParameterSelector = ({
+    options,
+    value,
+    valueOnChange,
+}: {
+    options: ResourceType[]
+    value: string
+    valueOnChange: (type: string, value: string) => void
+}) => {
+    return (
+        <Select value={value} showSearch style={{ width: '100%' }} onChange={e => valueOnChange('resourceType', e)}>
+            {options?.map(({ type, cols }) => (
+                <OptGroup label={type} key={type}>
+                    {cols.map(col => (
+                        <Option value={col} key={col}>
+                            {col}
+                        </Option>
+                    ))}
+                </OptGroup>
+            ))}
+        </Select>
+    )
+}
 const QueryUI = () => {
     const initialData: QueryData = {
         URL: 'https://',
@@ -73,6 +102,7 @@ const QueryUI = () => {
         token: '',
         sortBy: 'id',
         pageCount: 20,
+        parameters: [],
     }
     const [data, setData] = useState<QueryData>(initialData)
 
@@ -134,6 +164,9 @@ const QueryUI = () => {
             </Descriptions.Item>
             <Descriptions.Item label="Page Count">
                 <Slider value={data.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
+            </Descriptions.Item>
+            <Descriptions.Item label="Page Count">
+                <SearchParameterSelector options={RESOURCES} value={data.sortBy} valueOnChange={valueOnChange} />
             </Descriptions.Item>
         </Descriptions>
     )
