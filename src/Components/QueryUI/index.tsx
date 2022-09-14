@@ -172,20 +172,21 @@ const QueryUI = () => {
         const serverURL = columnName === 'serverURL' ? value : data.serverURL
         const resourceType = columnName === 'resourceType' ? value : data.resourceType
         const id = columnName === 'id' ? value : data.id
-        let parameters =
+        const parameters =
             columnName === 'parameters'
-                ? values?.map(({ parameter, value }) => `${parameter}=${value}`).join('&')
-                : data.parameters?.map(({ parameter, value }) => `${parameter}=${value}`).join('&')
+                ? values?.map(({ parameter, value }) => `${parameter}=${value || ''}`)
+                : data.parameters?.map(({ parameter, value }) => `${parameter}=${value || ''}`)
 
-        parameters = `${values?.length ? '?' : ''}${parameters}`
+        const sortBy = columnName === 'sortBy' ? value : data.sortBy
+        const pageCount = columnName === 'pageCount' ? value : data.pageCount
 
-        const URL = `${serverURL}/${resourceType}/${id}${parameters}`
+        const params = `?${`_sort=${sortBy}`}&${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
 
-        const sortBy = columnName === 'resourceType' ? 'id' : data.sortBy
+        const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${params}`
+
         setData({
             ...data,
             URL,
-            sortBy,
             [columnName]: value || values,
         })
     }
@@ -214,10 +215,10 @@ const QueryUI = () => {
                 <ResourceTypeSelector value={data.resourceType} valueOnChange={valueOnChange} />
             </Descriptions.Item>
             <Descriptions.Item label="ID">
-                <Input onChange={e => valueOnChange('id', e.target.value)} />
+                <Input value={data.id} onChange={e => valueOnChange('id', e.target.value)} />
             </Descriptions.Item>
             <Descriptions.Item label="Token">
-                <Input onChange={e => valueOnChange('token', e.target.value)} />
+                <Input value={data.token} onChange={e => valueOnChange('token', e.target.value)} />
             </Descriptions.Item>
             <Descriptions.Item label="Sort By">
                 <SortBySelector
