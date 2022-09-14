@@ -198,15 +198,15 @@ const QueryUI = () => {
     return (
         <Descriptions title="RedPanda" bordered>
             <Descriptions.Item label="URL" span={3}>
-                <Input.Group>
-                    <Input addonBefore={SelectBefore} style={{ width: '80%', marginRight: '1rem' }} value={data.URL} readOnly />
-                    <Button type="primary" style={{ marginRight: '1rem' }} onClick={sendRequest}>
+                <Space>
+                    <Input addonBefore={SelectBefore} style={{ width: '50vw' }} value={data.URL} readOnly />
+                    <Button type="primary" onClick={sendRequest}>
                         Send
                     </Button>
                     <Button type="primary" danger onClick={onReset}>
                         Reset
                     </Button>
-                </Input.Group>
+                </Space>
             </Descriptions.Item>
             <Descriptions.Item label="Server URL">
                 <Input value={data.serverURL} onChange={e => valueOnChange('serverURL', e.target.value)} />
