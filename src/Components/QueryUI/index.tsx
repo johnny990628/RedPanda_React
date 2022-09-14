@@ -14,7 +14,7 @@ type QueryData = {
     token: string
     sortBy: string
     pageCount: number
-    parameters: object[]
+    parameters: ParameterType[]
 }
 type ColumnType = {
     label: string
@@ -24,6 +24,11 @@ type ColumnType = {
 type ResourceType = {
     type: string
     cols: ColumnType[]
+}
+
+type ParameterType = {
+    parameter: string
+    value: string
 }
 
 const SelectBefore = (
@@ -80,15 +85,20 @@ const SearchParameterSelector = ({
     valueOnChange,
 }: {
     options: ResourceType[]
-    valueOnChange: (type: string, value: string) => void
+    valueOnChange: (type: string, value: string, values: ParameterType[]) => void
 }) => {
+    const [form] = Form.useForm()
+    const onChange = () => {
+        const parameters = form.getFieldValue('parameters')
+        valueOnChange('parameters', '', parameters)
+    }
     return (
-        <Form>
+        <Form form={form} onValuesChange={onChange}>
             <Form.List name="parameters">
                 {(fields, { add, remove }) => (
                     <Space direction="vertical">
                         {fields.map((field, index) => (
-                            <Space align="baseline">
+                            <Space align="baseline" key={field.key}>
                                 <Form.Item
                                     {...field}
                                     validateTrigger={['onChange', 'onBlur']}
@@ -100,7 +110,7 @@ const SearchParameterSelector = ({
                                     ]}
                                     name={[field.name, 'parameter']}
                                 >
-                                    <Select showSearch style={{ minWidth: '10rem' }} onChange={value => valueOnChange('parameter', value)}>
+                                    <Select placeholder="Select a Parameter" showSearch style={{ minWidth: '10rem' }}>
                                         {options?.map(({ type, cols }) => (
                                             <OptGroup label={type} key={type}>
                                                 {cols.map(({ label, key }) => (
@@ -123,7 +133,7 @@ const SearchParameterSelector = ({
                                     ]}
                                     name={[field.name, 'value']}
                                 >
-                                    <Input />
+                                    <Input placeholder="Input a value" />
                                 </Form.Item>
 
                                 <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
@@ -158,18 +168,25 @@ const QueryUI = () => {
         GET(data.resourceType).then(res => console.log(res))
     }
 
-    const valueOnChange = (columnName: string, value: string | number): void => {
+    const valueOnChange = (columnName: string, value?: string | number, values?: ParameterType[]): void => {
         const serverURL = columnName === 'serverURL' ? value : data.serverURL
         const resourceType = columnName === 'resourceType' ? value : data.resourceType
         const id = columnName === 'id' ? value : data.id
-        const URL = `${serverURL}/${resourceType}/${id}`
+        let parameters =
+            columnName === 'parameters'
+                ? values?.map(({ parameter, value }) => `${parameter}=${value}`).join('&')
+                : data.parameters?.map(({ parameter, value }) => `${parameter}=${value}`).join('&')
+
+        parameters = `${values?.length ? '?' : ''}${parameters}`
+
+        const URL = `${serverURL}/${resourceType}/${id}${parameters}`
 
         const sortBy = columnName === 'resourceType' ? 'id' : data.sortBy
         setData({
             ...data,
             URL,
             sortBy,
-            [columnName]: value,
+            [columnName]: value || values,
         })
     }
 
