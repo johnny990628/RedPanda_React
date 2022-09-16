@@ -1,51 +1,18 @@
+import React from 'react'
 import { Input, Descriptions, Select, Button, Slider, Form, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import React, { useState, useEffect } from 'react'
-import RESOURCES from '../../Resources.config.json'
-import { GET, getSetting, init } from '../../httpRequest'
+import RESOURCES from '../../Configs/Resources.config.json'
+
+import { ColumnType, ResourceType, ParameterType, QueryUIProps } from '../../Types'
 
 const { Option, OptGroup } = Select
-
-type QueryData = {
-    URL: string
-    serverURL: string
-    resourceType: string
-    id: string
-    token: string
-    sortBy: string
-    pageCount: number
-    parameters: ParameterType[]
-}
-type ColumnType = {
-    label: string
-    key: string
-}
-
-type ResourceType = {
-    type: string
-    cols: ColumnType[]
-}
-
-type ParameterType = {
-    parameter: string
-    value: string
-}
-
-const SelectBefore = (
-    <Select defaultValue="GET">
-        <Option value="GET">GET</Option>
-        <Option value="POST">POST</Option>
-        <Option value="PUT">PUT</Option>
-        <Option value="DELETE">DELETE</Option>
-    </Select>
-)
 
 const SortBySelector = ({
     options,
     value,
     valueOnChange,
 }: {
-    options: ColumnType[] | undefined
+    options?: ColumnType[]
     value: string
     valueOnChange: (type: string, value: string) => void
 }) => {
@@ -85,12 +52,12 @@ const SearchParameterSelector = ({
     valueOnChange,
 }: {
     options: ResourceType[]
-    valueOnChange: (type: string, value: string, values: ParameterType[]) => void
+    valueOnChange: (type: string, value: ParameterType[]) => void
 }) => {
     const [form] = Form.useForm()
     const onChange = () => {
         const parameters = form.getFieldValue('parameters')
-        valueOnChange('parameters', '', parameters)
+        valueOnChange('parameters', parameters)
     }
     return (
         <Form form={form} onValuesChange={onChange}>
@@ -150,90 +117,64 @@ const SearchParameterSelector = ({
         </Form>
     )
 }
-const QueryUI = () => {
-    const initialData: QueryData = {
-        URL: 'https://',
-        serverURL: 'https://',
-        resourceType: RESOURCES[0].type,
-        id: '',
-        token: '',
-        sortBy: 'id',
-        pageCount: 20,
-        parameters: [],
-    }
-    const [data, setData] = useState<QueryData>(initialData)
-
-    const sendRequest = () => {
-        init({ server: data.serverURL, token: data.token })
-        GET(data.resourceType).then(res => console.log(res))
-    }
-
-    const valueOnChange = (columnName: string, value?: string | number, values?: ParameterType[]): void => {
-        const serverURL = columnName === 'serverURL' ? value : data.serverURL
-        const resourceType = columnName === 'resourceType' ? value : data.resourceType
-        const id = columnName === 'id' ? value : data.id
-        const parameters =
-            columnName === 'parameters'
-                ? values?.map(({ parameter, value }) => `${parameter}=${value || ''}`)
-                : data.parameters?.map(({ parameter, value }) => `${parameter}=${value || ''}`)
-
-        const sortBy = columnName === 'sortBy' ? value : data.sortBy
-        const pageCount = columnName === 'pageCount' ? value : data.pageCount
-
-        const params = `?${`_sort=${sortBy}`}&${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
-
-        const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${params}`
-
-        setData({
-            ...data,
-            URL,
-            [columnName]: value || values,
-        })
-    }
-
-    const onReset = () => {
-        setData(initialData)
-    }
-
+const HTTPSelector = ({ value, valueOnChange }: { value: string; valueOnChange: (type: string, value: string) => void }) => {
     return (
-        <Descriptions title="RedPanda" bordered>
-            <Descriptions.Item label="URL" span={3}>
-                <Space>
-                    <Input addonBefore={SelectBefore} style={{ width: '50vw' }} value={data.URL} readOnly />
-                    <Button type="primary" onClick={sendRequest}>
-                        Send
-                    </Button>
-                    <Button type="primary" danger onClick={onReset}>
-                        Reset
-                    </Button>
-                </Space>
-            </Descriptions.Item>
-            <Descriptions.Item label="Server URL">
-                <Input value={data.serverURL} onChange={e => valueOnChange('serverURL', e.target.value)} />
-            </Descriptions.Item>
-            <Descriptions.Item label="Resource Type">
-                <ResourceTypeSelector value={data.resourceType} valueOnChange={valueOnChange} />
-            </Descriptions.Item>
-            <Descriptions.Item label="ID">
-                <Input value={data.id} onChange={e => valueOnChange('id', e.target.value)} />
-            </Descriptions.Item>
-            <Descriptions.Item label="Token">
-                <Input value={data.token} onChange={e => valueOnChange('token', e.target.value)} />
-            </Descriptions.Item>
-            <Descriptions.Item label="Sort By">
-                <SortBySelector
-                    options={RESOURCES.find(r => r.type === data.resourceType)?.cols}
-                    value={data.sortBy}
-                    valueOnChange={valueOnChange}
-                />
-            </Descriptions.Item>
-            <Descriptions.Item label="Page Count">
-                <Slider value={data.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
-            </Descriptions.Item>
-            <Descriptions.Item label="Search Parameters" span={2}>
-                <SearchParameterSelector options={RESOURCES} valueOnChange={valueOnChange} />
-            </Descriptions.Item>
-        </Descriptions>
+        <Select value={value} onChange={e => valueOnChange('HTTP', e)}>
+            <Option value="GET">GET</Option>
+            <Option value="POST">POST</Option>
+            <Option value="PUT">PUT</Option>
+            <Option value="DELETE">DELETE</Option>
+        </Select>
+    )
+}
+
+const QueryUI = ({ querys, valueOnChange, onReset, sendRequest }: QueryUIProps) => {
+    return (
+        <>
+            <Descriptions title="RedPanda" bordered>
+                <Descriptions.Item label="URL" span={3}>
+                    <Space>
+                        <Input
+                            addonBefore={<HTTPSelector value={querys.HTTP} valueOnChange={valueOnChange} />}
+                            style={{ width: '50vw' }}
+                            value={querys.URL}
+                            readOnly
+                        />
+                        <Button type="primary" onClick={sendRequest}>
+                            Send
+                        </Button>
+                        <Button type="primary" danger onClick={onReset}>
+                            Reset
+                        </Button>
+                    </Space>
+                </Descriptions.Item>
+                <Descriptions.Item label="Server URL">
+                    <Input value={querys.serverURL} onChange={e => valueOnChange('serverURL', e.target.value)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="Resource Type">
+                    <ResourceTypeSelector value={querys.resourceType} valueOnChange={valueOnChange} />
+                </Descriptions.Item>
+                <Descriptions.Item label="ID">
+                    <Input value={querys.id} onChange={e => valueOnChange('id', e.target.value)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="Token">
+                    <Input value={querys.token} onChange={e => valueOnChange('token', e.target.value)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="Sort By">
+                    <SortBySelector
+                        options={RESOURCES.find(r => r.type === querys.resourceType)?.cols}
+                        value={querys.sortBy}
+                        valueOnChange={valueOnChange}
+                    />
+                </Descriptions.Item>
+                <Descriptions.Item label="Page Count">
+                    <Slider value={querys.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="Search Parameters" span={2}>
+                    <SearchParameterSelector options={RESOURCES} valueOnChange={valueOnChange} />
+                </Descriptions.Item>
+            </Descriptions>
+        </>
     )
 }
 
