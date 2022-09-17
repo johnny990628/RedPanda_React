@@ -3,7 +3,7 @@ import { Button, TableColumnsType, Tooltip } from 'antd'
 import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
 import DATA from './data.json'
 import { capitalizeFirstLetter } from './../../Utils/string.converter'
-import { PatientCols } from './PatientCols'
+import { PatientCols } from '../ColsType/PatientCols'
 
 const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; changeJSONData: (data: [] | {}) => void }) => {
     const [expendedIndex, setExpendedIndex] = useState<number>(-1)

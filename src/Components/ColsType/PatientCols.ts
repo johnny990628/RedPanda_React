@@ -1,44 +1,4 @@
-const Coding = [
-    { label: 'System', name: 'system', type: 'string' },
-    { label: 'Code', name: 'code', type: 'string' },
-    { label: 'Display', name: 'display', type: 'string' },
-]
-const Period = [
-    { label: 'Start', name: 'start', type: 'string' },
-    { label: 'End', name: 'end', type: 'string' },
-]
-const Name = [
-    { label: 'Use', name: 'use', type: 'string' },
-    { label: 'Text', name: 'text', type: 'string' },
-    { label: 'Family', name: 'family', type: 'string' },
-    {
-        label: 'Given',
-        name: 'give',
-        type: 'array_string',
-    },
-]
-const Telecom = [
-    { label: 'Use', name: 'use', type: 'string' },
-    { label: 'System', name: 'system', type: 'string' },
-    { label: 'Value', name: 'value', type: 'string' },
-    {
-        label: 'Period',
-        name: 'period',
-        type: 'object',
-        display: 'start',
-        children: Period,
-    },
-]
-
-const CodeableConcept = [
-    {
-        label: 'Codeing',
-        name: 'codeing',
-        type: 'array',
-        childrens: Coding,
-    },
-    { label: 'Text', name: 'text', type: 'string' },
-]
+import { CodeableConcept, Name, Telecom, Period, Coding } from './index'
 
 export const PatientCols = [
     { label: 'ID', name: 'id', type: 'string' },
