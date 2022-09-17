@@ -1,39 +1,24 @@
-export enum HTTP {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    DELETE = 'DELETE',
+export type Coding = { system: string; code: string; display: string }
+export type CodeableConcept = {
+    coding: Coding[]
+    text: string
 }
-
-export type QueryType = {
-    HTTP: string
-    URL: string
-    serverURL: string
-    resourceType: string
-    id: string
-    token: string
-    sortBy: string
-    pageCount: number
-    parameters: ParameterType[]
-}
-export type ColumnType = {
-    label: string
-    key: string
-}
-
-export type ResourceType = {
-    type: string
-    cols: ColumnType[]
-}
-
-export type ParameterType = {
-    parameter: string
+export type Identifier = {
+    use: 'usual' | 'official' | 'temp' | 'secondary' | 'old'
+    type: CodeableConcept
+    system: string
     value: string
 }
-
-export type QueryUIProps = {
-    querys: QueryType
-    valueOnChange: (columnName: string, value: string | number | ParameterType[]) => void
-    onReset: () => void
-    sendRequest: () => void
+export type Name = {
+    use: 'usual' | 'official' | 'temp' | 'nickname' | 'anonymous' | 'old' | 'maiden'
+    text: string
+    family: string
+    given: string[]
+}
+export type Period = { start: 'string'; end: 'string' }
+export type Telecom = {
+    system: 'phone' | 'fax' | 'email' | 'pager' | 'url' | 'sms' | 'other'
+    value: string
+    use: 'home' | 'work' | 'temp' | 'old' | 'mobile'
+    period: Period
 }

@@ -1,1105 +1,188 @@
 [
     {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956912",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956912",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:36:22.741+00:00",
-                "source": "#4HVqdb6PqiFQuEdm"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table class=\"hapiPropertyTable\"><tbody/></table></div>"
+        "resourceType": "Patient",
+        "id": "pat-example",
+        "meta": {
+            "profile": ["https://twcore.mohw.gov.tw/fhir/StructureDefinition/Patient-twcore"]
+        },
+        "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3><b>病人基本資料</b></h3><blockquote><p><b>識別碼型別</b>：National unique individual identifier <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"http://terminology.hl7.org/CodeSystem/v2-0203\">Identifier Type Codes</a>#NI）</span><br/><b>身分證字號（official）</b>：A123456789 （http://www.moi.gov.tw/）</p></blockquote><blockquote><p><b>識別碼型別</b>：Medical record number <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"http://terminology.hl7.org/CodeSystem/v2-0203\">Identifier Type Codes</a>#MR）</span><br/><b>病歷號（official）</b>：8862168 （https://www.tph.mohw.gov.tw/）</p></blockquote><p><b>病人的紀錄（active）</b>：使用中</p><p><b>姓名（official）</b>：陳加玲 Chan, Chia Lin</p><p><b>性別</b>：女性</p><p><b>出生日期</b>：1990-01-01</p><p><b>年齡[extension: <a href=\"StructureDefinition-person-age.html\">person-age</a>]</b>：32</p><p><b>聯絡方式</b>：Phone <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"https://hl7.org/fhir/R4/valueset-contact-point-system.html\">ContactPointSystem</a>#phone）</span><br/><b>聯絡電話</b>：（Mobile）0911327999 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"https://build.fhir.org/codesystem-contact-point-use.html\">ContactPointUse</a>#mobile）</span><br/><b>聯絡電話使用效期</b>：2022-07-31至2024-07-31</p><p><b>聯絡地址</b>：(103)臺北市大同區大有里19鄰承德路三段52巷6弄210號2樓B室<br/><b>　郵遞區號（postalCode） [extension: <a href=\"StructureDefinition-tw-postal-code.html\">tw-postal-code</a>] </b>： <a href=\"CodeSystem-postal-code3-tw.html\">103</a><br/><b>　縣/市（city）</b>：臺北市<br/><b>　鄉/鎮/市/區（district）</b>：大同區<br/><b>　村(里)（village） [extension: <a href=\"StructureDefinition-tw-village.html\">tw-village</a>] </b>：大有里<br/><b>　鄰（neighborhood） [extension: <a href=\"StructureDefinition-tw-neighborhood.html\">tw-neighborhood</a>] </b>：19鄰<br/><b>　路/街（line）</b>：承德路<br/><b>　段(section) [extension: <a href=\"StructureDefinition-tw-section.html\">tw-section</a>] </b>：三段<br/><b>　巷/衖（lane） [extension: <a href=\"StructureDefinition-tw-lane.html\">tw-lane</a>] </b>：52巷<br/><b>　弄（alley） [extension: <a href=\"StructureDefinition-tw-alley.html\">tw-alley</a>] </b>：6弄<br/><b>　號（number） [extension: <a href=\"StructureDefinition-tw-number.html\">tw-number</a>] </b>：210號<br/><b>　樓（floor） [extension: <a href=\"StructureDefinition-tw-floor.html\">tw-floor</a>] </b>：2樓<br/><b>　室（room） [extension: <a href=\"StructureDefinition-tw-room.html\">tw-room</a>] </b>：B室<br/><b>　國家（country）</b>：臺灣<br/><br/></p><p><b>婚姻狀態</b>：unmarried <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"http://terminology.hl7.org/CodeSystem/v3-MaritalStatus\">臺灣婚姻狀態值集</a>#U）</span></p><p><b>聯絡人（official）</b>：李立偉 Li, Li Wei<br/><b>　關係</b>：father <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"http://terminology.hl7.org/CodeSystem/v3-RoleCode\">PatientRelationshipType</a>#FTH）</span><br/><b>　聯絡方式</b>：Phone <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"https://hl7.org/fhir/R4/valueset-contact-point-system.html\">ContactPointSystem</a>#phone）</span><br/><b>　聯絡電話</b>：（Mobile）0917159753 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\">（ <a href=\"https://build.fhir.org/codesystem-contact-point-use.html\">ContactPointUse</a>#mobile）</span><br/><b>　聯絡電話使用效期</b>：2022-07-31至2024-07-31</p><p><b>向病人說明健康狀態時所使用的語言</b>：中文</p><p><b>紀錄的保管機構</b>： <a href=\"Organization-org-hosp-example.html\">Organization/org-hosp-example</a> \"衛生福利部臺北醫院\"</p><p><b>病人照片</b>： <a href=\"https://2.bp.blogspot.com/-v3yEwItkXKQ/VaMN_1Nx6TI/AAAAAAAAvhM/zDXN_eZw_UE/s800/youngwoman_42.png\">https://2.bp.blogspot.com/-v3yEwItkXKQ/VaMN_1Nx6TI/AAAAAAAAvhM/zDXN_eZw_UE/s800/youngwoman_42.png</a><br/><img src=\"https://2.bp.blogspot.com/-v3yEwItkXKQ/VaMN_1Nx6TI/AAAAAAAAvhM/zDXN_eZw_UE/s800/youngwoman_42.png\" width=\"250px\"/></p></div>"
+        },
+        "extension": [
+            {
+                "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/person-age",
+                "valueInteger": 32
             }
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956937",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956937",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:48:39.502+00:00",
-                "source": "#ktx5Nsm27HAFRX18"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Vinita <b>AUFDERHAR </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>894</td></tr><tr><td>Address</td><td><span>Shelia Road </span><br/><span>East Abrahamport </span><span>Montana </span><span>Guam </span></td></tr><tr><td>Date of birth</td><td><span>20 March 1969</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "894"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Aufderhar",
-                    "given": ["Vinita"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": "035-140-3404"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1969-03-20",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Shelia Road"],
-                    "city": "East Abrahamport",
-                    "state": "Montana",
-                    "postalCode": "61806-1915",
-                    "country": "Guam"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956938",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956938",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:48:39.582+00:00",
-                "source": "#ktx5Nsm27HAFRX18"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Arlen <b>KUB </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>898</td></tr><tr><td>Address</td><td><span>Swaniawski Junctions </span><br/><span>East Murray </span><span>Rhode Island </span><span>Costa Rica </span></td></tr><tr><td>Date of birth</td><td><span>15 April 2001</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "898"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Kub",
-                    "given": ["Arlen"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "phone",
-                    "value": "1-424-474-9069"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "2001-04-15",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Swaniawski Junctions"],
-                    "city": "East Murray",
-                    "state": "Rhode Island",
-                    "postalCode": "22724",
-                    "country": "Costa Rica"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956939",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956939",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:48:41.070+00:00",
-                "source": "#l8FdobVvY9Cbraep"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Heriberto <b>KEMMER </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>477</td></tr><tr><td>Address</td><td><span>Schmitt Trail </span><br/><span>East Tessieville </span><span>Connecticut </span><span>Gambia </span></td></tr><tr><td>Date of birth</td><td><span>09 September 1988</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "477"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Kemmer",
-                    "given": ["Heriberto"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "phone",
-                    "value": "1-985-667-9812"
-                }
-            ],
-            "gender": "female",
-            "birthDate": "1988-09-09",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Schmitt Trail"],
-                    "city": "East Tessieville",
-                    "state": "Connecticut",
-                    "postalCode": "76432",
-                    "country": "Gambia"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956940",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956940",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:48:41.146+00:00",
-                "source": "#l8FdobVvY9Cbraep"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Jayson <b>GIBSON </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>229</td></tr><tr><td>Address</td><td><span>Little Streets </span><br/><span>Saundraton </span><span>Louisiana </span><span>Singapore </span></td></tr><tr><td>Date of birth</td><td><span>15 February 2000</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "229"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Gibson",
-                    "given": ["Jayson"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "phone",
-                    "value": "(142) 654-5252"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "2000-02-15",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Little Streets"],
-                    "city": "Saundraton",
-                    "state": "Louisiana",
-                    "postalCode": "95333",
-                    "country": "Singapore"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956941",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956941",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:48:43.208+00:00",
-                "source": "#iZSe6VCFWdzDNT2d"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Tandy <b>MARQUARDT </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>903</td></tr><tr><td>Address</td><td><span>Sirena Hills </span><br/><span>Scarlettberg </span><span>Utah </span><span>Monaco </span></td></tr><tr><td>Date of birth</td><td><span>03 October 1975</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "903"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Marquardt",
-                    "given": ["Tandy"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": "173.548.1333"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1975-10-03",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Sirena Hills"],
-                    "city": "Scarlettberg",
-                    "state": "Utah",
-                    "postalCode": "62240",
-                    "country": "Monaco"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956942",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956942",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:48:43.271+00:00",
-                "source": "#iZSe6VCFWdzDNT2d"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Katelynn <b>BEER </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>861</td></tr><tr><td>Address</td><td><span>Hintz Rest </span><br/><span>Krajcikburgh </span><span>New Jersey </span><span>Gambia </span></td></tr><tr><td>Date of birth</td><td><span>29 July 1958</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "861"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Beer",
-                    "given": ["Katelynn"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": "1-463-663-4355"
-                }
-            ],
-            "gender": "female",
-            "birthDate": "1958-07-29",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Hintz Rest"],
-                    "city": "Krajcikburgh",
-                    "state": "New Jersey",
-                    "postalCode": "94357",
-                    "country": "Gambia"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956964",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956964",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:50:59.673+00:00",
-                "source": "#zKh6lBmyBTviaZLT"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Gökhan <b>SAGIR </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Address</td><td><span>3300 Washtenaw </span><br/><span>Ann Harbor </span><span>MI </span><span>US </span></td></tr><tr><td>Date of birth</td><td><span>20 December 1989</span></td></tr></tbody></table></div>"
-            },
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Sagir",
-                    "given": ["Gökhan"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "phone",
-                    "value": "(03)55556789",
-                    "use": "home"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1989-12-20",
-            "address": [
-                {
-                    "line": ["3300 Washtenaw"],
-                    "city": "Ann Harbor",
-                    "district": "Washtenaw",
-                    "state": "MI",
-                    "country": "US"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956999",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956999",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:13.988+00:00",
-                "source": "#Mpa70CozcSK3UgTB"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Nenita <b>REICHERT </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>960</td></tr><tr><td>Address</td><td><span>Corine Trace </span><br/><span>Grahamtown </span><span>Colorado </span><span>San Marino </span></td></tr><tr><td>Date of birth</td><td><span>10 May 1986</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "960"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Reichert",
-                    "given": ["Nenita"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "sms",
-                    "value": "(129) 800-5358"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1986-05-10",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Corine Trace"],
-                    "city": "Grahamtown",
-                    "state": "Colorado",
-                    "postalCode": "75593",
-                    "country": "San Marino"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957000",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957000",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:14.058+00:00",
-                "source": "#Mpa70CozcSK3UgTB"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Margart <b>MURRAY </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>999</td></tr><tr><td>Address</td><td><span>Carlena Shoal </span><br/><span>Port Donniefort </span><span>Missouri </span><span>Bahamas </span></td></tr><tr><td>Date of birth</td><td><span>23 February 1983</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "999"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Murray",
-                    "given": ["Margart"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "phone",
-                    "value": "855.139.6697"
-                }
-            ],
-            "gender": "female",
-            "birthDate": "1983-02-23",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Carlena Shoal"],
-                    "city": "Port Donniefort",
-                    "state": "Missouri",
-                    "postalCode": "20477-5447",
-                    "country": "Bahamas"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957001",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957001",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:14.890+00:00",
-                "source": "#YRBwq3gg4fHVXRw8"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Roselle <b>PADBERG </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>855</td></tr><tr><td>Address</td><td><span>Mann Forge </span><br/><span>New Stewartbury </span><span>Massachusetts </span><span>Mexico </span></td></tr><tr><td>Date of birth</td><td><span>02 January 1994</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "855"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Padberg",
-                    "given": ["Roselle"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "sms",
-                    "value": "206-992-1714"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1994-01-02",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Mann Forge"],
-                    "city": "New Stewartbury",
-                    "state": "Massachusetts",
-                    "postalCode": "24149",
-                    "country": "Mexico"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957002",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957002",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:14.957+00:00",
-                "source": "#YRBwq3gg4fHVXRw8"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Paulette <b>HELLER </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>774</td></tr><tr><td>Address</td><td><span>Labadie Islands </span><br/><span>West Garth </span><span>Rhode Island </span><span>Guam </span></td></tr><tr><td>Date of birth</td><td><span>04 January 1981</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "774"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Heller",
-                    "given": ["Paulette"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": "442.482.7873"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1981-01-04",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Labadie Islands"],
-                    "city": "West Garth",
-                    "state": "Rhode Island",
-                    "postalCode": "12331",
-                    "country": "Guam"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957003",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957003",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:15.800+00:00",
-                "source": "#H3BtT5dkWLCTLM8d"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Roxana <b>BEER </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>014</td></tr><tr><td>Address</td><td><span>Chu Square </span><br/><span>DuBuqueview </span><span>Mississippi </span><span>Cook Islands </span></td></tr><tr><td>Date of birth</td><td><span>06 February 1963</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "014"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Beer",
-                    "given": ["Roxana"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "other",
-                    "value": "239.584.9135"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1963-02-06",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Chu Square"],
-                    "city": "DuBuqueview",
-                    "state": "Mississippi",
-                    "postalCode": "03099",
-                    "country": "Cook Islands"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957004",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957004",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:15.868+00:00",
-                "source": "#H3BtT5dkWLCTLM8d"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">David <b>SCHOEN </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>928</td></tr><tr><td>Address</td><td><span>Spencer Burgs </span><br/><span>Wardburgh </span><span>New Mexico </span><span>Netherlands Antilles </span></td></tr><tr><td>Date of birth</td><td><span>06 September 1994</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "928"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Schoen",
-                    "given": ["David"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "other",
-                    "value": "517.998.1186"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1994-09-06",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Spencer Burgs"],
-                    "city": "Wardburgh",
-                    "state": "New Mexico",
-                    "postalCode": "55165",
-                    "country": "Netherlands Antilles"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957005",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957005",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:16.657+00:00",
-                "source": "#8Tl3jESgc0VqF4GO"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Gerald <b>GORCZANY </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>536</td></tr><tr><td>Address</td><td><span>Cammy Flats </span><br/><span>Claudeport </span><span>New Jersey </span><span>United Kingdom </span></td></tr><tr><td>Date of birth</td><td><span>23 April 1976</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "536"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Gorczany",
-                    "given": ["Gerald"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": "1-993-422-7022"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1976-04-23",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Cammy Flats"],
-                    "city": "Claudeport",
-                    "state": "New Jersey",
-                    "postalCode": "75829-7054",
-                    "country": "United Kingdom"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2957006",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2957006",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T07:24:16.729+00:00",
-                "source": "#8Tl3jESgc0VqF4GO"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Cathrine <b>STIEDEMANN </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>526</td></tr><tr><td>Address</td><td><span>Dare Ranch </span><br/><span>Hahnfurt </span><span>Delaware </span><span>Guinea-Bissau </span></td></tr><tr><td>Date of birth</td><td><span>25 November 1967</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "526"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Stiedemann",
-                    "given": ["Cathrine"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "sms",
-                    "value": "1-742-544-4666"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1967-11-25",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Dare Ranch"],
-                    "city": "Hahnfurt",
-                    "state": "Delaware",
-                    "postalCode": "88293-2798",
-                    "country": "Guinea-Bissau"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/1927298",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "1927298",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2021-03-05T14:08:56.048+00:00",
-                "source": "#CDINbUL3bj4lf9c4"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Taro Jiro <b>YAMADA </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>00001</td></tr><tr><td>Address</td><td><span>534 Erewhon St </span><br/><span>PleasantVille </span><span>USA </span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "value": "00001"
-                }
-            ],
-            "name": [
-                {
-                    "extension": [
+        ],
+        "identifier": [
+            {
+                "use": "official",
+                "type": {
+                    "coding": [
                         {
-                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
-                            "valueCode": "IDE"
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            "code": "NI"
                         }
-                    ],
-                    "family": "Yamada",
-                    "given": ["Taro", "Jiro"]
-                }
-            ],
-            "telecom": [
-                {
-                    "use": "home"
+                    ]
                 },
-                {
-                    "system": "phone",
-                    "value": "(03) 5555 6473",
-                    "use": "work",
-                    "rank": 1
-                }
-            ],
-            "address": [
-                {
-                    "use": "home",
-                    "type": "both",
-                    "text": "534 Erewhon St PeasantVille, Rainbow, Vic  3999",
-                    "line": ["534 Erewhon St"],
-                    "city": "PleasantVille",
-                    "district": "Rainbow",
-                    "state": "USA",
-                    "postalCode": "3999",
-                    "period": {
-                        "start": "1974-12-25"
-                    }
-                }
-            ],
-            "contact": [
-                {
-                    "name": {
-                        "family": "Suzuki",
-                        "given": ["Ichiro"]
-                    },
-                    "gender": "male",
-                    "period": {
-                        "start": "2012"
-                    }
-                },
-                {
-                    "name": {
-                        "family": "Saito",
-                        "given": ["Hanako"]
-                    },
-                    "gender": "female"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956839",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956839",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T05:39:51.635+00:00",
-                "source": "#kka6RjajTtQDjl1U"
+                "system": "http://www.moi.gov.tw/",
+                "value": "A123456789"
             },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Peter James <b>CHALMERS </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>12345</td></tr><tr><td>Address</td><td><span>534 Erewhon St </span><br/><span>PleasantVille </span><span>Vic </span></td></tr><tr><td>Date of birth</td><td><span>25 December 1974</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "use": "usual",
-                    "type": {
-                        "coding": [
-                            {
-                                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-                                "code": "MR"
-                            }
-                        ]
-                    },
-                    "system": "urn:oid:1.2.36.146.595.217.0.1",
-                    "value": "12345",
-                    "period": {
-                        "start": "2001-05-06"
-                    },
-                    "assigner": {
-                        "display": "Acme Healthcare"
-                    }
+            {
+                "use": "official",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                            "code": "MR"
+                        }
+                    ]
+                },
+                "system": "https://www.tph.mohw.gov.tw/",
+                "value": "8862168"
+            }
+        ],
+        "active": true,
+        "name": [
+            {
+                "use": "official",
+                "text": "陳加玲",
+                "family": "Chan",
+                "given": ["Chia Lin"]
+            }
+        ],
+        "telecom": [
+            {
+                "system": "phone",
+                "value": "0911327999",
+                "use": "mobile",
+                "period": {
+                    "start": "2022-07-31",
+                    "end": "2024-07-31"
                 }
-            ],
-            "active": true,
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Chalmers",
-                    "given": ["Peter", "James"]
-                },
-                {
-                    "use": "usual",
-                    "given": ["Jim"]
-                },
-                {
-                    "use": "maiden",
-                    "family": "Windsor",
-                    "given": ["Peter", "James"],
-                    "period": {
-                        "end": "2002"
-                    }
-                }
-            ],
-            "telecom": [
-                {
-                    "use": "home"
-                },
-                {
-                    "system": "phone",
-                    "value": "(03) 5555 6473",
-                    "use": "work",
-                    "rank": 1
-                },
-                {
-                    "system": "phone",
-                    "value": "(03) 3410 5613",
-                    "use": "mobile",
-                    "rank": 2
-                },
-                {
-                    "system": "phone",
-                    "value": "(03) 5555 8834",
-                    "use": "old",
-                    "period": {
-                        "end": "2014"
-                    }
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1974-12-25",
-            "_birthDate": {
+            }
+        ],
+        "gender": "female",
+        "birthDate": "1990-01-01",
+        "address": [
+            {
                 "extension": [
                     {
-                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
-                        "valueDateTime": "1974-12-25T14:35:45-05:00"
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-section",
+                        "valueString": "三段"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-number",
+                        "valueString": "210號"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-village",
+                        "valueString": "大有里"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-neighborhood",
+                        "valueString": "19鄰"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-lane",
+                        "valueString": "52巷"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-alley",
+                        "valueString": "6弄"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-floor",
+                        "valueString": "2樓"
+                    },
+                    {
+                        "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-room",
+                        "valueString": "B室"
+                    }
+                ],
+                "text": "臺北市大同區大有里19鄰承德路三段52巷6弄210號2樓B室",
+                "line": ["承德路"],
+                "city": "臺北市",
+                "district": "大同區",
+                "_postalCode": {
+                    "extension": [
+                        {
+                            "url": "https://twcore.mohw.gov.tw/fhir/StructureDefinition/tw-postal-code",
+                            "valueCodeableConcept": {
+                                "coding": [
+                                    {
+                                        "system": "https://twcore.mohw.gov.tw/fhir/CodeSystem/postal-code3-tw",
+                                        "code": "103"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "country": "TW"
+            }
+        ],
+        "maritalStatus": {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
+                    "code": "U"
+                }
+            ]
+        },
+        "photo": [
+            {
+                "contentType": "image/jpeg",
+                "data": "R0lGODlhEwARAPcAAAAAAAAA/+9aAO+1AP/WAP/eAP/eCP/eEP/eGP/nAP/nCP/nEP/nIf/nKf/nUv/nWv/vAP/vCP/vEP/vGP/vIf/vKf/vMf/vOf/vWv/vY//va//vjP/3c//3lP/3nP//tf//vf///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////yH5BAEAAAEALAAAAAATABEAAAi+AAMIDDCgYMGBCBMSvMCQ4QCFCQcwDBGCA4cLDyEGECDxAoAQHjxwyKhQAMeGIUOSJJjRpIAGDS5wCDly4AALFlYOgHlBwwOSNydM0AmzwYGjBi8IHWoTgQYORg8QIGDAwAKhESI8HIDgwQaRDI1WXXAhK9MBBzZ8/XDxQoUFZC9IiCBh6wEHGz6IbNuwQoSpWxEgyLCXL8O/gAnylNlW6AUEBRIL7Og3KwQIiCXb9HsZQoIEUzUjNEiaNMKAAAA7",
+                "url": "https://2.bp.blogspot.com/-v3yEwItkXKQ/VaMN_1Nx6TI/AAAAAAAAvhM/zDXN_eZw_UE/s800/youngwoman_42.png"
+            }
+        ],
+        "contact": [
+            {
+                "relationship": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                "code": "FTH"
+                            }
+                        ]
+                    }
+                ],
+                "name": {
+                    "use": "official",
+                    "text": "李立偉",
+                    "family": "Li",
+                    "given": ["Li Wei"]
+                },
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "0917159753",
+                        "use": "mobile",
+                        "period": {
+                            "start": "2022-07-31",
+                            "end": "2024-07-31"
+                        }
                     }
                 ]
-            },
-            "deceasedBoolean": false,
-            "address": [
-                {
-                    "use": "home",
-                    "type": "both",
-                    "text": "534 Erewhon St PeasantVille, Rainbow, Vic  3999",
-                    "line": ["534 Erewhon St"],
-                    "city": "PleasantVille",
-                    "district": "Rainbow",
-                    "state": "Vic",
-                    "postalCode": "3999",
-                    "period": {
-                        "start": "1974-12-25"
-                    }
-                }
-            ],
-            "contact": [
-                {
-                    "relationship": [
+            }
+        ],
+        "communication": [
+            {
+                "language": {
+                    "coding": [
                         {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0131",
-                                    "code": "N"
-                                }
-                            ]
+                            "system": "urn:ietf:bcp:47",
+                            "code": "zh-TW"
                         }
-                    ],
-                    "name": {
-                        "family": "du Marché",
-                        "_family": {
-                            "extension": [
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-prefix",
-                                    "valueString": "VV"
-                                }
-                            ]
-                        },
-                        "given": ["Bénédicte"]
-                    },
-                    "telecom": [
-                        {
-                            "system": "phone",
-                            "value": "+33 (237) 998327"
-                        }
-                    ],
-                    "address": {
-                        "use": "home",
-                        "type": "both",
-                        "line": ["534 Erewhon St"],
-                        "city": "PleasantVille",
-                        "district": "Rainbow",
-                        "state": "Vic",
-                        "postalCode": "3999",
-                        "period": {
-                            "start": "1974-12-25"
-                        }
-                    },
-                    "gender": "female",
-                    "period": {
-                        "start": "2012"
-                    }
+                    ]
                 }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956853",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956853",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:01:34.938+00:00",
-                "source": "#WdcW4NMBUQ51CjDJ"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Latrina <b>HILLS </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>968</td></tr><tr><td>Address</td><td><span>Kulas Course </span><br/><span>Hintzchester </span><span>Pennsylvania </span><span>Nauru </span></td></tr><tr><td>Date of birth</td><td><span>11 July 1969</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "968"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Hills",
-                    "given": ["Latrina"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "phone",
-                    "value": "189-245-8698"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1969-07-11",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Kulas Course"],
-                    "city": "Hintzchester",
-                    "state": "Pennsylvania",
-                    "postalCode": "18237-2614",
-                    "country": "Nauru"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
-        }
-    },
-    {
-        "fullUrl": "https://hapi.fhir.org/baseR4/Patient/2956854",
-        "resource": {
-            "resourceType": "Patient",
-            "id": "2956854",
-            "meta": {
-                "versionId": "1",
-                "lastUpdated": "2022-05-17T06:01:35.042+00:00",
-                "source": "#WdcW4NMBUQ51CjDJ"
-            },
-            "text": {
-                "status": "generated",
-                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">Cami <b>ZIEMANN </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>067</td></tr><tr><td>Address</td><td><span>Hessel Fort </span><br/><span>Garryport </span><span>New York </span><span>Jamaica </span></td></tr><tr><td>Date of birth</td><td><span>09 May 1988</span></td></tr></tbody></table></div>"
-            },
-            "identifier": [
-                {
-                    "system": "http://ns.electronichealth.net.au/id/hi/ihi/1.0",
-                    "value": "067"
-                }
-            ],
-            "name": [
-                {
-                    "use": "official",
-                    "family": "Ziemann",
-                    "given": ["Cami"]
-                }
-            ],
-            "telecom": [
-                {
-                    "system": "sms",
-                    "value": "428.508.8934"
-                }
-            ],
-            "gender": "male",
-            "birthDate": "1988-05-09",
-            "address": [
-                {
-                    "use": "home",
-                    "line": ["Hessel Fort"],
-                    "city": "Garryport",
-                    "state": "New York",
-                    "postalCode": "53139",
-                    "country": "Jamaica"
-                }
-            ]
-        },
-        "search": {
-            "mode": "match"
+            }
+        ],
+        "managingOrganization": {
+            "reference": "Organization/org-hosp-example"
         }
     }
 ]

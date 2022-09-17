@@ -3,7 +3,7 @@ import { Input, Descriptions, Select, Button, Slider, Form, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import RESOURCES from '../../Configs/Resources.config.json'
 
-import { ColumnType, ResourceType, ParameterType, QueryUIProps } from '../../Types'
+import { ColumnType, ResourceType, ParameterType, QueryUIProps } from '../../Types/Query'
 
 const { Option, OptGroup } = Select
 

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import QueryUI from './Components/QueryUI/index'
-import { QueryType, ColumnType, ResourceType, ParameterType, HTTP } from './Types'
+import { QueryType, ColumnType, ResourceType, ParameterType, HTTP } from './Types/Query'
 import { GET, init } from './httpRequest'
 import RESOURCES from './Configs/Resources.config.json'
 import JSONTable from './Components/JSONTable'
+import { Modal } from 'antd'
+import JSONModal from './Components/JSONModal'
 
 function App() {
     const initialQuerys: QueryType = {
@@ -18,7 +20,20 @@ function App() {
         parameters: [],
     }
     const [querys, setQuerys] = useState<QueryType>(initialQuerys)
-    const [FHIRData, setFHIRData] = useState<object[]>([])
+    const [JSONData, setJSONData] = useState<[] | {}>([])
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const changeJSONData = (data: {} | []) => {
+        setJSONData(data)
+    }
+
+    const openModal = () => {
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+    }
 
     const valueOnChange = (columnName: string, value: string | number | ParameterType[]): void => {
         const serverURL = columnName === 'serverURL' ? value : querys.serverURL
@@ -53,10 +68,12 @@ function App() {
         init({ server: querys.serverURL, token: querys.token })
         GET(querys.resourceType).then(res => console.log(res.data))
     }
+
     return (
         <div style={{ padding: '1rem' }}>
             <QueryUI querys={querys} valueOnChange={valueOnChange} onReset={onReset} sendRequest={sendRequest} />
-            <JSONTable />
+            <JSONTable openModal={openModal} changeJSONData={changeJSONData} />
+            <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} />
         </div>
     )
 }

@@ -1,36 +1,10 @@
-type Coding = { system: string; code: string; display: string }
-type CodeableConcept = {
-    coding: Coding
-    text: string
-}
-type Identifier = {
-    use: 'usual' | 'official' | 'temp' | 'secondary' | 'old'
-    type: CodeableConcept
-    system: string
-    value: string
-}
-type Name = {
-    use: 'usual' | 'official' | 'temp' | 'nickname' | 'anonymous' | 'old' | 'maiden'
-    text: string
-    family: string
-    given: string
-}
-type Period = { start: 'string'; end: 'string' }
-type Telecom = {
-    system: 'phone' | 'fax' | 'email' | 'pager' | 'url' | 'sms' | 'other'
-    value: string
-    use: 'home' | 'work' | 'temp' | 'old' | 'mobile'
-    period: Period
-}
-type Organization = {}
+import { Identifier, Name, Telecom, CodeableConcept, Coding, Period } from './index'
 
 export type PatientResourceType = {
     id: string
     text: { status: string; div: string }
-    identifier: Identifier
-    passportNumber: Identifier
-    residentNumber: Identifier
-    medicalRecord: Identifier
+    identifier: Identifier[]
+    active: boolean
     name: Name[]
     telecom: Telecom[]
     gender: 'male' | 'female' | 'other' | 'unknown'
@@ -51,9 +25,21 @@ export type PatientResourceType = {
         district: string
         postalCode: string
         country: string
+        _postalCode: {
+            extension: {
+                url: string
+                valueCodeableConcept: {
+                    coding: Coding[]
+                }
+            }[]
+        }
+        extension: {
+            url: string
+            valueString: string
+        }
     }[]
-    maritalStatus: CodeableConcept[]
-    photo: string
+    maritalStatus: CodeableConcept
+    photo: { contentType: string; data: string; url: string }[]
     contract: {
         relationShip: CodeableConcept[]
         name: Name
@@ -63,5 +49,5 @@ export type PatientResourceType = {
     communication: {
         language: CodeableConcept
     }[]
-    managingOrganization: Organization
+    managingOrganization: { reference: string }
 }
