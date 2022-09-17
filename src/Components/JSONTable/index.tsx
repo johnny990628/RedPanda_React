@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import type { TableColumnsType } from 'antd'
 import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
 import DATA from './data.json'
+import { capitalizeFirstLetter } from './../../Utils/string.converter'
 
 function JSONTable() {
     const [expendedIndex, setExpendedIndex] = useState<number>(-1)
@@ -17,20 +18,13 @@ function JSONTable() {
     }
 
     const expandedRowRender = () => {
-        const columns = expendedData?.length > 0 ? Object.keys(expendedData[0]).map(key => ({ title: key, dataIndex: key, key: key })) : []
+        const children =
+            expendedData?.length > 0
+                ? Object.keys(expendedData[0]).map(key => ({ title: capitalizeFirstLetter(key), dataIndex: key, key: key }))
+                : []
+        const columns = [{ title: capitalizeFirstLetter(expendedColName), children }]
 
-        return <Table columns={columns} dataSource={expendedData} pagination={false} />
-    }
-
-    type PatientResourceType = {
-        id: string
-        text: { status: string; div: string }
-        identifier: { system: string }[]
-        name: { family: string; given: string[] }[]
-        gender: string
-        birthDate: string
-        address: { use: string; line: string[]; city: string; country: string; state: string; postalCode: string }[]
-        search: { mode: string }
+        return <Table size="small" bordered columns={columns} dataSource={expendedData} pagination={false} />
     }
 
     const columns = [
@@ -75,6 +69,7 @@ function JSONTable() {
             }}
             expandedRowKeys={[expendedIndex]}
             dataSource={DATA.map((d, i) => ({ key: i, ...d.resource }))}
+            pagination={false}
         />
     )
 }
