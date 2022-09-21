@@ -4,6 +4,10 @@ import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
 import DATA from './data.json'
 import { capitalizeFirstLetter } from './../../Utils/string.converter'
 import { PatientCols } from '../ColsType/PatientCols'
+import { ConditionCols } from '../ColsType/ConditionCols'
+import { MedicationCols } from '../ColsType/MedicationCols'
+import { DiagnosticReportCols } from '../ColsType/DiagnosticReportCols'
+import { EncounterCols } from '../ColsType/EncounterCols'
 
 const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; changeJSONData: (data: [] | {}) => void }) => {
     const [expendedIndex, setExpendedIndex] = useState<number>(-1)
@@ -14,13 +18,7 @@ const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; chang
         label: string
         name: string
         type: string
-        display?: string
-        childrens?: {
-            label: string
-            name: string
-            type: string
-            childrens?: any
-        }[]
+        childrens?: any[]
     }
 
     const expend = (index: number, columnName: string, record: {}[]) => {
@@ -80,7 +78,7 @@ const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; chang
                     render: (record: {}[], row: object, index: number) => {
                         return (
                             <a onClick={() => expend(index, name, record)}>
-                                {index === expendedIndex && expendedColName === name ? 'Close Details' : 'More Details'}
+                                {index === expendedIndex && expendedColName === name ? 'Close' : 'More Details'}
                             </a>
                         )
                     },
@@ -109,7 +107,7 @@ const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; chang
     }
 
     const columns = [
-        ...PatientCols.map(col => typeSwitch(col)),
+        ...EncounterCols.map(col => typeSwitch(col)),
         {
             title: 'JSON',
             key: 'operation',
