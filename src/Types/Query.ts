@@ -15,6 +15,7 @@ export type QueryType = {
     sortBy: string
     pageCount: number
     parameters: ParameterType[]
+    headers: { header: string; value: string }[]
 }
 export type ColumnType = {
     label: string

@@ -18,6 +18,7 @@ function App() {
         sortBy: 'id',
         pageCount: 20,
         parameters: [],
+        headers: [],
     }
     const [querys, setQuerys] = useState<QueryType>(initialQuerys)
     const [JSONData, setJSONData] = useState<[] | {}>([])

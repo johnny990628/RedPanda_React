@@ -2,7 +2,7 @@
     {
         "type": "Patient",
         "cols": [
-            { "label": "id", "key": "patient_id" },
+            { "label": "_id", "key": "patient_id" },
             { "label": "birthDate", "key": "patient_birthDate" },
             { "label": "gender", "key": "patient_gender" },
             { "label": "identifier", "key": "patient_identifier" },

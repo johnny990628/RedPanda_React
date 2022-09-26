@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, Descriptions, Select, Button, Slider, Form, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import RESOURCES from '../../Configs/Resources.config.json'
@@ -51,7 +51,7 @@ const SearchParameterSelector = ({
     options,
     valueOnChange,
 }: {
-    options: ResourceType[]
+    options?: { label: string; key: string }[]
     valueOnChange: (type: string, value: ParameterType[]) => void
 }) => {
     const [form] = Form.useForm()
@@ -78,14 +78,10 @@ const SearchParameterSelector = ({
                                     name={[field.name, 'parameter']}
                                 >
                                     <Select placeholder="Select a Parameter" showSearch style={{ minWidth: '10rem' }}>
-                                        {options?.map(({ type, cols }) => (
-                                            <OptGroup label={type} key={type}>
-                                                {cols.map(({ label, key }) => (
-                                                    <Option value={label} key={key}>
-                                                        {label}
-                                                    </Option>
-                                                ))}
-                                            </OptGroup>
+                                        {options?.map(({ label, key }) => (
+                                            <Option value={label} key={key}>
+                                                {label}
+                                            </Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
@@ -109,6 +105,61 @@ const SearchParameterSelector = ({
                         <Form.Item>
                             <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                                 Add Parameter
+                            </Button>
+                        </Form.Item>
+                    </Space>
+                )}
+            </Form.List>
+        </Form>
+    )
+}
+
+const SearchHeaderSelector = ({ valueOnChange }: { valueOnChange: (type: string, value: ParameterType[]) => void }) => {
+    const [form] = Form.useForm()
+    const onChange = () => {
+        const headers = form.getFieldValue('headers')
+        valueOnChange('headers', headers)
+    }
+    return (
+        <Form form={form} onValuesChange={onChange}>
+            <Form.List name="headers">
+                {(fields, { add, remove }) => (
+                    <Space direction="vertical">
+                        {fields.map((field, index) => (
+                            <Space align="baseline" key={field.key}>
+                                <Form.Item
+                                    {...field}
+                                    validateTrigger={['onChange', 'onBlur']}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please fill or delete this field.',
+                                        },
+                                    ]}
+                                    name={[field.name, 'header']}
+                                >
+                                    <Input placeholder="Input a header type" />
+                                </Form.Item>
+                                <Form.Item
+                                    {...field}
+                                    validateTrigger={['onChange', 'onBlur']}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please fill or delete this field.',
+                                        },
+                                    ]}
+                                    name={[field.name, 'value']}
+                                >
+                                    <Input placeholder="Input a value" />
+                                </Form.Item>
+
+                                <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
+                            </Space>
+                        ))}
+                        <Form.Item>
+                            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                Add Header
                             </Button>
                         </Form.Item>
                     </Space>
@@ -157,9 +208,6 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest }: QueryUIProps) 
                 <Descriptions.Item label="ID">
                     <Input value={querys.id} onChange={e => valueOnChange('id', e.target.value)} />
                 </Descriptions.Item>
-                <Descriptions.Item label="Token">
-                    <Input value={querys.token} onChange={e => valueOnChange('token', e.target.value)} />
-                </Descriptions.Item>
                 <Descriptions.Item label="Sort By">
                     <SortBySelector
                         options={RESOURCES.find(r => r.type === querys.resourceType)?.cols}
@@ -167,11 +215,17 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest }: QueryUIProps) 
                         valueOnChange={valueOnChange}
                     />
                 </Descriptions.Item>
-                <Descriptions.Item label="Page Count">
+                <Descriptions.Item label="Page Count" span={2}>
                     <Slider value={querys.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
                 </Descriptions.Item>
-                <Descriptions.Item label="Search Parameters" span={2}>
-                    <SearchParameterSelector options={RESOURCES} valueOnChange={valueOnChange} />
+                <Descriptions.Item label="Search Parameters" span={1.5}>
+                    <SearchParameterSelector
+                        options={RESOURCES.find(res => res.type === querys.resourceType)?.cols}
+                        valueOnChange={valueOnChange}
+                    />
+                </Descriptions.Item>
+                <Descriptions.Item label="Search Header" span={1.5}>
+                    <SearchHeaderSelector valueOnChange={valueOnChange} />
                 </Descriptions.Item>
             </Descriptions>
         </>
