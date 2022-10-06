@@ -133,7 +133,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
             title: 'JSON',
             key: 'operation',
             fixed: 'right',
-            render: () => <Button onClick={() => handleClick(fetchJson.resource)}>JSON</Button>,
+            render: (e: { key: number }) => <Button onClick={() => handleClick(e)}>JSON</Button>,
         },
     ]
 
@@ -152,3 +152,4 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
 }
 
 export default JSONTable
+//handleClick(fetchJson)
