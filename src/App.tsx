@@ -24,7 +24,6 @@ function App() {
     const [JSONData, setJSONData] = useState<[] | {}>([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [fetchJson,setFetchJson] = useState<[] | {}>([])
-    console.log(querys)
 
     const changeJSONData = (data: {} | []) => {
         setJSONData(data)
@@ -56,6 +55,9 @@ function App() {
 
         const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${params}`
 
+        if(columnName === 'resourceType' || columnName === 'sortBy'){
+            sendRequest()
+        }
         setQuerys({
             ...querys,
             URL,
@@ -68,6 +70,7 @@ function App() {
     }
 
     const sendRequest = () => {
+        setFetchJson([])
         init({ server: querys.serverURL, token: querys.token })
         GET(querys.resourceType).then(res => setFetchJson(res.data.entry))
     }
