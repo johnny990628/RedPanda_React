@@ -2,7 +2,7 @@ import { Modal } from 'antd'
 import React, { useState } from 'react'
 import ReactJson from 'react-json-view'
 import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
-import { DownloadOutlined } from '@ant-design/icons';
+import { ConsoleSqlOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, Radio } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 
@@ -25,7 +25,7 @@ const JSONModal = ({
     )
 }
 
-const DownloadJson = ({ json }: { json: {} | [] }) => {
+const DownloadJson = (json: { json: {} | [] }) => {
     const [size, setSize] = useState<SizeType>('large');
 
     const onClick = () => {
@@ -33,8 +33,9 @@ const DownloadJson = ({ json }: { json: {} | [] }) => {
             JSON.stringify(json, null, 2)
         )}`;
         const link = document.createElement("a");
+        const data: { id: string, resourceType: string } = json.json as any
         link.href = jsonString;
-        link.download = "data.json";
+        link.download = `${data.resourceType}${data.id}.json`;
 
         link.click();
     }

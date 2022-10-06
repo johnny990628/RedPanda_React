@@ -158,7 +158,7 @@ const SearchHeaderSelector = ({ valueOnChange }: { valueOnChange: (type: string,
                             </Space>
                         ))}
                         <Form.Item>
-                            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            <Button type="dashed" onClick={() => add({})} block icon={<PlusOutlined />}>
                                 Add Header
                             </Button>
                         </Form.Item>
