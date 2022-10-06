@@ -15,7 +15,7 @@ function App() {
         resourceType: RESOURCES[0].type,
         id: '',
         token: '',
-        sortBy: 'id',
+        sortBy: '_id',
         pageCount: 20,
         parameters: [],
         headers: [],
@@ -23,6 +23,8 @@ function App() {
     const [querys, setQuerys] = useState<QueryType>(initialQuerys)
     const [JSONData, setJSONData] = useState<[] | {}>([])
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [fetchJson,setFetchJson] = useState<[] | {}>([])
+    console.log(querys)
 
     const changeJSONData = (data: {} | []) => {
         setJSONData(data)
@@ -67,13 +69,13 @@ function App() {
 
     const sendRequest = () => {
         init({ server: querys.serverURL, token: querys.token })
-        GET(querys.resourceType).then(res => console.log(res.data))
+        GET(querys.resourceType).then(res => setFetchJson(res.data.entry))
     }
 
     return (
         <div style={{ padding: '1rem' }}>
             <QueryUI querys={querys} valueOnChange={valueOnChange} onReset={onReset} sendRequest={sendRequest} />
-            <JSONTable openModal={openModal} changeJSONData={changeJSONData} />
+            <JSONTable openModal={openModal} querys={querys.resourceType} changeJSONData={changeJSONData} fetchJson={fetchJson}/>
             <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} />
         </div>
     )

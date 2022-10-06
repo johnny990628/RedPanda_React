@@ -2,17 +2,38 @@ import React, { useState } from 'react'
 import { Button, TableColumnsType, Tooltip } from 'antd'
 import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
 import DATA from './data.json'
+import Resourcesconfigjson from "../../Configs/Resources.config.json"
 import { capitalizeFirstLetter } from './../../Utils/string.converter'
 import { PatientCols } from '../ColsType/PatientCols'
 import { ConditionCols } from '../ColsType/ConditionCols'
 import { MedicationCols } from '../ColsType/MedicationCols'
 import { DiagnosticReportCols } from '../ColsType/DiagnosticReportCols'
 import { EncounterCols } from '../ColsType/EncounterCols'
+import { ProcedureCols } from '../ColsType/ProcedureCols'
+import { PractitionerCols } from '../ColsType/PractitionerCols'
+import { OrganizationCols } from '../ColsType/OrganizationCols'
+import { MedicationRequestCols } from '../ColsType/MedicationRequestCols'
+import { ObservationCols } from '../ColsType/ObservationCols'
 
-const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; changeJSONData: (data: [] | {}) => void }) => {
+
+const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal: () => void; changeJSONData: (data: [] | {}) => void; fetchJson: any; querys: string }) => {
     const [expendedIndex, setExpendedIndex] = useState<number>(-1)
     const [expendedColName, setExpendedColName] = useState<string>('')
     const [expendedData, setExpendedData] = useState<{}[]>([])
+
+    const columnsJSON: any = {
+        Patient: PatientCols,
+        Condition: ConditionCols,
+        Medication: MedicationCols,
+        DiagnosticReport: DiagnosticReportCols,
+        Encounter: EncounterCols,
+        Procedure: ProcedureCols,
+        Practitioner: PractitionerCols,
+        Organization: OrganizationCols,
+        MedicationRequest: MedicationRequestCols,
+        Observation: ObservationCols
+    }
+
 
     type ColType = {
         label: string
@@ -38,17 +59,17 @@ const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; chang
         const children =
             expendedData?.length > 0
                 ? Object.entries(expendedData[0]).map(([key, value]) =>
-                      typeof value === 'object'
-                          ? {
-                                title: capitalizeFirstLetter(key),
-                                dataIndex: key,
-                                key: key,
-                                render: (record: {} | [], row: object, index: number) => {
-                                    return <Button onClick={() => handleClick(record)}>JSON</Button>
-                                },
-                            }
-                          : { title: capitalizeFirstLetter(key), dataIndex: key, key: key, ellipsis: true }
-                  )
+                    typeof value === 'object'
+                        ? {
+                            title: capitalizeFirstLetter(key),
+                            dataIndex: key,
+                            key: key,
+                            render: (record: {} | [], row: object, index: number) => {
+                                return <Button onClick={() => handleClick(record)}>JSON</Button>
+                            },
+                        }
+                        : { title: capitalizeFirstLetter(key), dataIndex: key, key: key, ellipsis: true }
+                )
                 : []
         const columns = [{ title: capitalizeFirstLetter(expendedColName), children }]
 
@@ -107,12 +128,12 @@ const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; chang
     }
 
     const columns = [
-        ...EncounterCols.map(col => typeSwitch(col)),
+        ...columnsJSON[querys].map((col: ColType) => typeSwitch(col)),
         {
             title: 'JSON',
             key: 'operation',
             fixed: 'right',
-            render: () => <Button onClick={() => handleClick(DATA)}>JSON</Button>,
+            render: () => <Button onClick={() => handleClick(fetchJson.resource)}>JSON</Button>,
         },
     ]
 
@@ -124,7 +145,7 @@ const JSONTable = ({ openModal, changeJSONData }: { openModal: () => void; chang
                 expandIcon: () => <></>,
             }}
             expandedRowKeys={[expendedIndex]}
-            dataSource={DATA.map((d, i) => ({ key: i, ...d }))}
+            dataSource={fetchJson.map((d: { resource: object }, i: number) => ({ key: i, ...d.resource }))}
             pagination={false}
         />
     )
