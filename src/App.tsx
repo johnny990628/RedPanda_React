@@ -55,6 +55,7 @@ function App() {
 
         const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${params}`
 
+        //fex：更換Resource Type 重新fetch 資料
         if(columnName === 'resourceType' || columnName === 'sortBy'){
             sendRequest()
         }
