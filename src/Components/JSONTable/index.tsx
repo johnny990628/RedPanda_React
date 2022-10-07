@@ -87,6 +87,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     dataIndex: name,
                     key: name,
+                    ellipsis: true,
                     render: (record: {} | [], row: object, index: number) => {
                         return <Button onClick={() => handleClick(record)}>JSON</Button>
                     },
@@ -96,6 +97,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     key: name,
                     dataIndex: name,
+                    ellipsis: true,
                     render: (record: {}[], row: object, index: number) => {
                         return (
                             <a onClick={() => expend(index, name, record)}>
@@ -109,6 +111,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     key: name,
                     dataIndex: name,
+                    ellipsis: true,
                     render: (record: string[], row: object, index: number) => {
                         return <span>{record.join(',')}</span>
                     },
@@ -118,6 +121,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     key: name,
                     dataIndex: name,
+                    ellipsis: true,
                     render: (record: boolean, row: object, index: number) => {
                         return <span>{record ? 'yes' : 'no'}</span>
                     },
@@ -133,7 +137,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
             title: 'JSON',
             key: 'operation',
             fixed: 'right',
-            render: (e: ColType) => <Button onClick={() => handleClick(e)}>JSON</Button>,
+            render: (e: ColType) =><Button onClick={() => handleClick(e)}>JSON</Button>,
         },
     ]
 

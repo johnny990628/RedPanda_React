@@ -99,7 +99,10 @@ function App() {
 
     const sendRequest = () => {
         init({ server: querys.serverURL, token: querys.token, resourceType: querys.resourceType })
-        GET(querys.resourceType, fetchJsonParameters, fetchJsonHeader).then(res => { if (res.data.entry) setFetchJson(res.data.entry) })
+        GET(querys.resourceType, fetchJsonParameters, fetchJsonHeader).then(res => { 
+                const data =  (res.data.entry)?res.data.entry:[]
+                setFetchJson(data) 
+            })
     }
 
     return (
