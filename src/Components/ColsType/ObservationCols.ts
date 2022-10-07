@@ -5,7 +5,7 @@ import {
     Quantity,
 } from "./index";
 
-export const Observation = [
+export const ObservationCols = [
     { label: "ID", name: "id", type: "string" },
     { label: "Text", name: "text", type: "object", childrens: Narrative },
     { label: "Status", name: "status", type: "string" },
