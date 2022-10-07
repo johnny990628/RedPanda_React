@@ -157,6 +157,7 @@ const SearchHeaderSelector = ({ valueOnChange }: { valueOnChange: (type: string,
                                 <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
                             </Space>
                         ))}
+                        <></>
                         <Form.Item>
                             <Button type="dashed" onClick={() => add({})} block icon={<PlusOutlined />}>
                                 Add Header
@@ -224,8 +225,9 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest }: QueryUIProps) 
                         valueOnChange={valueOnChange}
                     />
                 </Descriptions.Item>
-                <Descriptions.Item label="Search Header" span={1.5}>
-                    <SearchHeaderSelector valueOnChange={valueOnChange} />
+                <Descriptions.Item label="Token" span={1.5}>
+                    <Input value={querys.token} onChange={e => valueOnChange('token', e.target.value)} />
+                    {/* <SearchHeaderSelector valueOnChange={valueOnChange} /> */}
                 </Descriptions.Item>
             </Descriptions>
         </>
