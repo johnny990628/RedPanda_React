@@ -180,7 +180,10 @@ const HTTPSelector = ({ value, valueOnChange }: { value: string; valueOnChange: 
     )
 }
 
-const QueryUI = ({ querys, valueOnChange, onReset, sendRequest }: QueryUIProps) => {
+
+
+const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, inputJsonChange }: QueryUIProps) => {
+    const { TextArea } = Input;
     return (
         <>
             <Descriptions title="RedPanda" bordered>
@@ -206,29 +209,45 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest }: QueryUIProps) 
                 <Descriptions.Item label="Resource Type">
                     <ResourceTypeSelector value={querys.resourceType} valueOnChange={valueOnChange} />
                 </Descriptions.Item>
+
                 <Descriptions.Item label="ID">
                     <Input value={querys.id} onChange={e => valueOnChange('id', e.target.value)} />
                 </Descriptions.Item>
-                <Descriptions.Item label="Sort By">
-                    <SortBySelector
-                        options={RESOURCES.find(r => r.type === querys.resourceType)?.cols}
-                        value={querys.sortBy}
-                        valueOnChange={valueOnChange}
-                    />
-                </Descriptions.Item>
-                <Descriptions.Item label="Page Count" span={2}>
-                    <Slider value={querys.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
-                </Descriptions.Item>
-                <Descriptions.Item label="Search Parameters" span={1.5}>
-                    <SearchParameterSelector
-                        options={RESOURCES.find(res => res.type === querys.resourceType)?.cols}
-                        valueOnChange={valueOnChange}
-                    />
-                </Descriptions.Item>
-                <Descriptions.Item label="Token" span={1.5}>
+
+                {querys.HTTP === "GET" ? (
+                    <>
+                        <Descriptions.Item label="Sort By">
+                            <SortBySelector
+                                options={RESOURCES.find(r => r.type === querys.resourceType)?.cols}
+                                value={querys.sortBy}
+                                valueOnChange={valueOnChange}
+                            />
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Page Count" span={2}>
+                            <Slider value={querys.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Search Parameters" span={1.5}>
+                            <SearchParameterSelector
+                                options={RESOURCES.find(res => res.type === querys.resourceType)?.cols}
+                                valueOnChange={valueOnChange}
+                            />
+                        </Descriptions.Item>
+                    </>
+                ) : (<></>)}
+
+
+                <Descriptions.Item label="Token" span={4}>
                     <Input value={querys.token} onChange={e => valueOnChange('token', e.target.value)} />
-                    {/* <SearchHeaderSelector valueOnChange={valueOnChange} /> */}
                 </Descriptions.Item>
+
+
+                {querys.HTTP === "POST" || querys.HTTP === "PUT" ? (
+                    <Descriptions.Item label="JSON" span={4}>
+                        <TextArea rows={15} placeholder="input JSON" value={inputJson} onChange={(e) => { inputJsonChange(e.target.value) }} />
+                    </Descriptions.Item>
+                ) : (<></>)}
+
+
             </Descriptions>
         </>
     )

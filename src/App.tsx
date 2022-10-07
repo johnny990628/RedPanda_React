@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import QueryUI from './Components/QueryUI/index'
 import { QueryType, ColumnType, ResourceType, ParameterType, HTTP } from './Types/Query'
-import { GET, init } from './httpRequest'
+import { GET, init, POST, PUT, DELETE } from './httpRequest'
 import RESOURCES from './Configs/Resources.config.json'
 import JSONTable from './Components/JSONTable'
-import { Modal } from 'antd'
+import { Button, notification, Tag } from 'antd'
 import JSONModal from './Components/JSONModal'
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
     const [fetchJson, setFetchJson] = useState<[] | {}>([])//存取response的json
     const [fetchJsonParameters, setFetchJsonParameters] = useState<[] | {}>({})//提供給httpRequest的參數專用
     const [fetchJsonHeader, setFetchJsonHeader] = useState<[] | {}>({})//提供給httpRequest的Header參數專用
-
+    const [inputJson, setInputJson] = useState<string>("")
     console.log(querys)
     //修改resourceType，使用useEffect是因為title 會更新
     useEffect(() => {
@@ -51,10 +51,21 @@ function App() {
                 if (item.header) headers[item.header] = item.value || ""
             })
         }
-        console.log(headers)
         setFetchJsonParameters(obj)
         setFetchJsonHeader(headers)
     }, [querys.parameters, querys.pageCount, querys.id, querys.headers])
+
+    const openNotification = (title: number, value: string) => {
+        const colorType = () => {
+            if (title >= 200 && title < 300) {
+                return "blue"
+            } else { return "red" }
+        }
+        notification.open({
+            message: <>Server response：<Tag color={colorType()}>{title}</Tag></>,
+            description: value,
+        });
+    };
 
     const changeJSONData = (data: {} | []) => {
         setJSONData(data)
@@ -99,17 +110,45 @@ function App() {
 
     const sendRequest = () => {
         init({ server: querys.serverURL, token: querys.token, resourceType: querys.resourceType })
-        GET(querys.resourceType, fetchJsonParameters, fetchJsonHeader).then(res => { 
-                const data =  (res.data.entry)?res.data.entry:[]
-                setFetchJson(data) 
-            })
+        switch (querys.HTTP) {
+            case "GET":
+                GET(querys.resourceType, fetchJsonParameters, fetchJsonHeader).then(res => {
+                    const data = (res.data.entry) ? res.data.entry : []
+                    setFetchJson(data)
+                })
+                break;
+            case "POST":
+                POST(querys.resourceType, inputJson).then((res: { status: number, text: string }) => {
+                    openNotification(res.status, res.text)
+                })
+                break;
+            case "PUT":
+                PUT(querys.resourceType, inputJson).then((res: { status: number, text: string }) => {
+                    openNotification(res.status, res.text)
+                })
+                break;
+            case "DELETE":
+                DELETE(querys.resourceType, querys.id).then((res: { status: number, text: string }) => {
+                    openNotification(res.status, res.text)
+                })
+                break;
+
+        }
     }
+
+    const inputJsonChange = (value: string): void => {
+        console.log(value)
+        setInputJson(value)
+    }
+
 
     return (
         <div style={{ padding: '1rem' }}>
-            <QueryUI querys={querys} valueOnChange={valueOnChange} onReset={onReset} sendRequest={sendRequest} />
-            <JSONTable openModal={openModal} querys={querys.resourceType} changeJSONData={changeJSONData} fetchJson={fetchJson} />
-            <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} />
+            <QueryUI querys={querys} valueOnChange={valueOnChange} onReset={onReset} sendRequest={sendRequest} inputJsonChange={inputJsonChange} inputJson={inputJson} />
+
+            {/* 只有GET顯示下方Table*/}
+            {querys.HTTP === "GET" ? <><JSONTable openModal={openModal} querys={querys.resourceType} changeJSONData={changeJSONData} fetchJson={fetchJson} />
+                <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} /></> : <></>}
         </div>
     )
 }
