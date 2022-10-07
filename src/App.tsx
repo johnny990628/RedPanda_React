@@ -27,7 +27,6 @@ function App() {
     const [fetchJsonParameters, setFetchJsonParameters] = useState<[] | {}>({})//提供給httpRequest的參數專用
     const [fetchJsonHeader, setFetchJsonHeader] = useState<[] | {}>({})//提供給httpRequest的Header參數專用
     const [inputJson, setInputJson] = useState<string>("")
-    console.log(querys)
     //修改resourceType，使用useEffect是因為title 會更新
     useEffect(() => {
         sendRequest()
@@ -137,7 +136,6 @@ function App() {
     }
 
     const inputJsonChange = (value: string): void => {
-        console.log(value)
         setInputJson(value)
     }
 
