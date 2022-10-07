@@ -4,7 +4,7 @@ import { QueryType, ColumnType, ResourceType, ParameterType, HTTP } from './Type
 import { GET, init, POST, PUT, DELETE } from './httpRequest'
 import RESOURCES from './Configs/Resources.config.json'
 import JSONTable from './Components/JSONTable'
-import { Button, notification, Tag } from 'antd'
+import { message, Space, notification, Tag } from 'antd'
 import JSONModal from './Components/JSONModal'
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
         setFetchJsonHeader(headers)
     }, [querys.parameters, querys.pageCount, querys.id, querys.headers])
 
-    const openNotification = (title: number, value: string) => {
+    const openNotification = (title: number, value: string, id: string) => {
         const colorType = () => {
             if (title >= 200 && title < 300) {
                 return "blue"
@@ -62,8 +62,12 @@ function App() {
         }
         notification.open({
             message: <>Server response：<Tag color={colorType()}>{title}</Tag></>,
-            description: value,
+            description: `${value}ID: ${id}`,
         });
+    };
+
+    const error = () => {
+        message.error('Error：please check console');
     };
 
     const changeJSONData = (data: {} | []) => {
@@ -117,19 +121,19 @@ function App() {
                 })
                 break;
             case "POST":
-                POST(querys.resourceType, inputJson).then((res: { status: number, text: string }) => {
-                    openNotification(res.status, res.text)
-                })
+                POST(querys.resourceType, inputJson).then((res: { status: number, text: string, data: { id: string } }) => {
+                    openNotification(res.status, res.text, res.data.id)
+                }).catch(() => error())
                 break;
             case "PUT":
-                PUT(querys.resourceType, inputJson).then((res: { status: number, text: string }) => {
-                    openNotification(res.status, res.text)
-                })
+                PUT(querys.resourceType, inputJson).then((res: { status: number, text: string, data: { id: string } }) => {
+                    openNotification(res.status, res.text, res.data.id)
+                }).catch(() => error())
                 break;
             case "DELETE":
-                DELETE(querys.resourceType, querys.id).then((res: { status: number, text: string }) => {
-                    openNotification(res.status, res.text)
-                })
+                DELETE(querys.resourceType, querys.id).then((res: { status: number, text: string, data: { id: string } }) => {
+                    openNotification(res.status, res.text, res.data.id)
+                }).catch(() => error())
                 break;
 
         }
