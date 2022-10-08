@@ -131,6 +131,7 @@ export function DELETE(resource) {
             return reject(`ERROR: please use init() to set the server url`);
         // Request url
         let url = `${reqSetting.server}/${resource}`;
+        console.log(url)
         // Request option
         let option = buildOption({
             method: "DELETE",
