@@ -126,12 +126,12 @@ function App() {
                 }).catch(() => error())
                 break;
             case "PUT":
-                PUT(querys.resourceType, inputJson).then((res: { status: number, text: string, data: { id: string } }) => {
+                PUT(querys.resourceType + "/" + querys.id, inputJson).then((res: { status: number, text: string, data: { id: string } }) => {
                     openNotification(res.status, res.text, res.data.id)
                 }).catch(() => error())
                 break;
             case "DELETE":
-                DELETE(querys.resourceType, querys.id).then((res: { status: number, text: string, data: { id: string } }) => {
+                DELETE(querys.resourceType + "/" + querys.id).then((res: { status: number, text: string, data: { id: string } }) => {
                     openNotification(res.status, res.text, res.data.id)
                 }).catch(() => error())
                 break;
