@@ -125,12 +125,12 @@ export function PUT(resource, data) {
             });
     });
 }
-export function DELETE(resource, id) {
+export function DELETE(resource) {
     return new Promise((reslove, reject) => {
         if (!reqSetting.server)
             return reject(`ERROR: please use init() to set the server url`);
         // Request url
-        let url = `${reqSetting.server}/${resource}/${id}`;
+        let url = `${reqSetting.server}/${resource}`;
         console.log(url)
         // Request option
         let option = buildOption({
