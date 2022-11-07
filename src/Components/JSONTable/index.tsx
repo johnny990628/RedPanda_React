@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Button, TableColumnsType, Tooltip } from 'antd'
+import { Button, Divider, TableColumnsType, Tooltip } from 'antd'
 import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
 import DATA from './data.json'
-import Resourcesconfigjson from "../../Configs/Resources.config.json"
+import Resourcesconfigjson from '../../Configs/Resources.config.json'
 import { capitalizeFirstLetter } from './../../Utils/string.converter'
 import { PatientCols } from '../ColsType/PatientCols'
 import { ConditionCols } from '../ColsType/ConditionCols'
@@ -15,8 +15,17 @@ import { OrganizationCols } from '../ColsType/OrganizationCols'
 import { MedicationRequestCols } from '../ColsType/MedicationRequestCols'
 import { ObservationCols } from '../ColsType/ObservationCols'
 
-
-const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal: () => void; changeJSONData: (data: [] | {}) => void; fetchJson: any; querys: string }) => {
+const JSONTable = ({
+    openModal,
+    changeJSONData,
+    fetchJson,
+    querys,
+}: {
+    openModal: () => void
+    changeJSONData: (data: [] | {}) => void
+    fetchJson: any
+    querys: string
+}) => {
     const [expendedIndex, setExpendedIndex] = useState<number>(-1)
     const [expendedColName, setExpendedColName] = useState<string>('')
     const [expendedData, setExpendedData] = useState<{}[]>([])
@@ -31,9 +40,8 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
         Practitioner: PractitionerCols,
         Organization: OrganizationCols,
         MedicationRequest: MedicationRequestCols,
-        Observation: ObservationCols
+        Observation: ObservationCols,
     }
-
 
     type ColType = {
         label: string
@@ -59,17 +67,17 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
         const children =
             expendedData?.length > 0
                 ? Object.entries(expendedData[0]).map(([key, value]) =>
-                    typeof value === 'object'
-                        ? {
-                            title: capitalizeFirstLetter(key),
-                            dataIndex: key,
-                            key: key,
-                            render: (record: {} | [], row: object, index: number) => {
-                                return <Button onClick={() => handleClick(record)}>JSON</Button>
-                            },
-                        }
-                        : { title: capitalizeFirstLetter(key), dataIndex: key, key: key, ellipsis: true }
-                )
+                      typeof value === 'object'
+                          ? {
+                                title: capitalizeFirstLetter(key),
+                                dataIndex: key,
+                                key: key,
+                                render: (record: {} | [], row: object, index: number) => {
+                                    return <Button onClick={() => handleClick(record)}>JSON</Button>
+                                },
+                            }
+                          : { title: capitalizeFirstLetter(key), dataIndex: key, key: key, ellipsis: true }
+                  )
                 : []
         const columns = [{ title: capitalizeFirstLetter(expendedColName), children }]
 
@@ -80,16 +88,30 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
         switch (type) {
             case 'string':
                 return name === 'id'
-                    ? { title: label, dataIndex: name, key: name, ellipsis: true, fixed: true }
-                    : { title: label, dataIndex: name, key: name, ellipsis: true }
+                    ? {
+                          title: label,
+                          dataIndex: name,
+                          key: name,
+                          fixed: true,
+                          render: (record: {} | [], row: object, index: number) => {
+                              return record || <div>-</div>
+                          },
+                      }
+                    : {
+                          title: label,
+                          dataIndex: name,
+                          key: name,
+                          render: (record: {} | [], row: object, index: number) => {
+                              return record || <div>-</div>
+                          },
+                      }
             case 'object':
                 return {
                     title: label,
                     dataIndex: name,
                     key: name,
-                    ellipsis: true,
                     render: (record: {} | [], row: object, index: number) => {
-                        return <Button onClick={() => handleClick(record)}>JSON</Button>
+                        return record ? <Button onClick={() => handleClick(record)}>JSON</Button> : <div>-</div>
                     },
                 }
             case 'array':
@@ -97,12 +119,14 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     key: name,
                     dataIndex: name,
-                    ellipsis: true,
                     render: (record: {}[], row: object, index: number) => {
-                        return (
-                            <a onClick={() => expend(index, name, record)}>
-                                {index === expendedIndex && expendedColName === name ? 'Close' : 'More Details'}
+                        const isClicked = index === expendedIndex && expendedColName === name
+                        return record ? (
+                            <a style={{ color: isClicked ? 'red' : '' }} onClick={() => expend(index, name, record)}>
+                                {isClicked ? 'Close' : 'More Details'}
                             </a>
+                        ) : (
+                            <div>-</div>
                         )
                     },
                 }
@@ -111,7 +135,6 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     key: name,
                     dataIndex: name,
-                    ellipsis: true,
                     render: (record: string[], row: object, index: number) => {
                         return <span>{record.join(',')}</span>
                     },
@@ -121,7 +144,6 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
                     title: label,
                     key: name,
                     dataIndex: name,
-                    ellipsis: true,
                     render: (record: boolean, row: object, index: number) => {
                         return <span>{record ? 'yes' : 'no'}</span>
                     },
@@ -137,7 +159,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
             title: 'JSON',
             key: 'operation',
             fixed: 'right',
-            render: (e: ColType) =><Button onClick={() => handleClick(e)}>JSON</Button>,
+            render: (e: ColType) => <Button onClick={() => handleClick(e)}>JSON</Button>,
         },
     ]
 
@@ -151,6 +173,7 @@ const JSONTable = ({ openModal, changeJSONData, fetchJson, querys }: { openModal
             expandedRowKeys={[expendedIndex]}
             dataSource={fetchJson.map((d: { resource: object }, i: number) => ({ key: i, ...d.resource }))}
             pagination={false}
+            scroll={{ x: window.innerWidth }}
         />
     )
 }
