@@ -6,7 +6,8 @@
             { "label": "birthDate", "key": "patient_birthDate" },
             { "label": "gender", "key": "patient_gender" },
             { "label": "identifier", "key": "patient_identifier" },
-            { "label": "name", "key": "patient_name" }
+            { "label": "name", "key": "patient_name" },
+            { "label": "organization", "key": "patient_organization" }
         ]
     },
     {
@@ -94,7 +95,7 @@
     },
     {
         "type": "Procedure",
-        "cols": [ 
+        "cols": [
             { "label": "_id", "key": "procedure_id" },
             { "label": "code", "key": "procedure_code" },
             { "label": "status", "key": "procedure_status" },
