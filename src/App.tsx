@@ -27,9 +27,20 @@ function App() {
 
     const [inputJson, setInputJson] = useState<string>('')
     //修改resourceType，使用useEffect是因為title 會更新
+    // useEffect(() => {
+    //     sendRequest()
+    // }, [querys.resourceType])
     useEffect(() => {
-        sendRequest()
-    }, [querys.resourceType])
+        if (querys.HTTP !== HTTP.GET) {
+            const { serverURL, resourceType, id } = querys
+            const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}`
+            setQuerys({
+                ...querys,
+                parameters: [],
+                URL,
+            })
+        }
+    }, [querys.HTTP])
 
     const openNotification = ({ statusCode, message, color }: { statusCode: number; message: string; color: string }) => {
         notification.open({
@@ -58,6 +69,14 @@ function App() {
         setJSONData(data)
     }
 
+    const updateQueryData = (data: {}) => {
+        setQuerys({ ...querys, ...data })
+    }
+
+    const updateInputJson = (data: string) => {
+        setInputJson(data)
+    }
+
     const openModal = () => {
         setIsModalOpen(true)
     }
@@ -80,14 +99,17 @@ function App() {
         const sortBy = columnName === 'sortBy' ? value : querys.sortBy
         const pageCount = columnName === 'pageCount' ? value : querys.pageCount
 
-        const params = `?${`_sort=${sortBy}`}&${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
-
-        const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${id ? '' : params}`
+        // const params = `?${`_sort=${sortBy}`}&${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
+        const params = `?${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
+        const URL =
+            querys.HTTP === HTTP.GET
+                ? `${serverURL}/${resourceType}${id ? `/${id}` : ''}${id ? '' : params}`
+                : `${serverURL}/${resourceType}${id ? `/${id}` : ''}`
 
         setQuerys({
             ...querys,
-            URL,
             [columnName]: value,
+            URL,
         })
     }
 
@@ -107,27 +129,24 @@ function App() {
                         setFetchJson(data)
                         responseHandler(res)
                     })
-                    .catch(err => {
-                        console.log(err)
-                        openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' })
-                    })
+                    .catch(err => openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' }))
                 break
             case 'POST':
-                POST(querys.resourceType, inputJson)
+                POST(querys.URL, inputJson)
                     .then(res => {
                         responseHandler(res)
                     })
                     .catch(err => openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' }))
                 break
             case 'PUT':
-                PUT(querys.resourceType + '/' + querys.id, inputJson)
+                PUT(querys.URL, inputJson)
                     .then(res => {
                         responseHandler(res)
                     })
                     .catch(err => openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' }))
                 break
             case 'DELETE':
-                DELETE(querys.resourceType + '/' + querys.id)
+                DELETE(querys.URL)
                     .then(res => {
                         responseHandler(res)
                     })
@@ -154,7 +173,14 @@ function App() {
             {/* 只有GET顯示下方Table*/}
             {querys.HTTP === 'GET' ? (
                 <>
-                    <JSONTable openModal={openModal} querys={querys.resourceType} changeJSONData={changeJSONData} fetchJson={fetchJson} />
+                    <JSONTable
+                        openModal={openModal}
+                        querys={querys.resourceType}
+                        changeJSONData={changeJSONData}
+                        fetchJson={fetchJson}
+                        updateQueryData={updateQueryData}
+                        updateInputJson={updateInputJson}
+                    />
                     <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} />
                 </>
             ) : (

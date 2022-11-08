@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Divider, TableColumnsType, Tooltip } from 'antd'
-import { Table, Badge, Menu, Dropdown, Space, Row } from 'antd'
+import { Button, Space, Table } from 'antd'
+import { FileTextOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import DATA from './data.json'
 import Resourcesconfigjson from '../../Configs/Resources.config.json'
+import { HTTP } from '../../Types/Query'
 import { capitalizeFirstLetter } from './../../Utils/string.converter'
 import { PatientCols } from '../ColsType/PatientCols'
 import { ConditionCols } from '../ColsType/ConditionCols'
@@ -20,11 +21,15 @@ const JSONTable = ({
     changeJSONData,
     fetchJson,
     querys,
+    updateQueryData,
+    updateInputJson,
 }: {
     openModal: () => void
     changeJSONData: (data: [] | {}) => void
     fetchJson: any
     querys: string
+    updateQueryData: (data: {}) => void
+    updateInputJson: (data: string) => void
 }) => {
     const [expendedIndex, setExpendedIndex] = useState<number>(-1)
     const [expendedColName, setExpendedColName] = useState<string>('')
@@ -63,6 +68,14 @@ const JSONTable = ({
         openModal()
     }
 
+    const switchToPUT = (record: any) => {
+        updateQueryData({ HTTP: HTTP.PUT, id: record.id, resourceType: record.resourceType })
+        updateInputJson(JSON.stringify(record))
+    }
+    const switchToDELETE = (record: any) => {
+        updateQueryData({ HTTP: HTTP.DELETE, id: record.id, resourceType: record.resourceType })
+    }
+
     const expandedRowRender = () => {
         const children =
             expendedData?.length > 0
@@ -73,7 +86,11 @@ const JSONTable = ({
                                 dataIndex: key,
                                 key: key,
                                 render: (record: {} | [], row: object, index: number) => {
-                                    return <Button onClick={() => handleClick(record)}>JSON</Button>
+                                    return (
+                                        <Button icon={<FileTextOutlined />} onClick={() => handleClick(record)}>
+                                            JSON
+                                        </Button>
+                                    )
                                 },
                             }
                           : { title: capitalizeFirstLetter(key), dataIndex: key, key: key, ellipsis: true }
@@ -93,6 +110,7 @@ const JSONTable = ({
                           dataIndex: name,
                           key: name,
                           fixed: true,
+                          width: 100,
                           render: (record: {} | [], row: object, index: number) => {
                               return record || <div>-</div>
                           },
@@ -101,6 +119,7 @@ const JSONTable = ({
                           title: label,
                           dataIndex: name,
                           key: name,
+                          width: 150,
                           render: (record: {} | [], row: object, index: number) => {
                               return record || <div>-</div>
                           },
@@ -110,8 +129,15 @@ const JSONTable = ({
                     title: label,
                     dataIndex: name,
                     key: name,
+                    width: 150,
                     render: (record: {} | [], row: object, index: number) => {
-                        return record ? <Button onClick={() => handleClick(record)}>JSON</Button> : <div>-</div>
+                        return record ? (
+                            <Button icon={<FileTextOutlined />} onClick={() => handleClick(record)}>
+                                JSON
+                            </Button>
+                        ) : (
+                            <div>-</div>
+                        )
                     },
                 }
             case 'array':
@@ -119,11 +145,12 @@ const JSONTable = ({
                     title: label,
                     key: name,
                     dataIndex: name,
+                    width: 150,
                     render: (record: {}[], row: object, index: number) => {
                         const isClicked = index === expendedIndex && expendedColName === name
                         return record ? (
                             <a style={{ color: isClicked ? 'red' : '' }} onClick={() => expend(index, name, record)}>
-                                {isClicked ? 'Close' : 'More Details'}
+                                {isClicked ? 'Close' : 'Expand'}
                             </a>
                         ) : (
                             <div>-</div>
@@ -135,6 +162,7 @@ const JSONTable = ({
                     title: label,
                     key: name,
                     dataIndex: name,
+                    width: 150,
                     render: (record: string[], row: object, index: number) => {
                         return <span>{record.join(',')}</span>
                     },
@@ -144,6 +172,7 @@ const JSONTable = ({
                     title: label,
                     key: name,
                     dataIndex: name,
+                    width: 150,
                     render: (record: boolean, row: object, index: number) => {
                         return <span>{record ? 'yes' : 'no'}</span>
                     },
@@ -156,10 +185,17 @@ const JSONTable = ({
     const columns = [
         ...columnsJSON[querys].map((col: ColType) => typeSwitch(col)),
         {
-            title: 'JSON',
+            title: 'Actions',
             key: 'operation',
             fixed: 'right',
-            render: (e: ColType) => <Button onClick={() => handleClick(e)}>JSON</Button>,
+            width: 150,
+            render: (e: ColType) => (
+                <Space>
+                    <Button icon={<FileTextOutlined />} onClick={() => handleClick(e)}></Button>
+                    <Button icon={<EditOutlined />} onClick={() => switchToPUT(e)}></Button>
+                    <Button icon={<DeleteOutlined />} onClick={() => switchToDELETE(e)}></Button>
+                </Space>
+            ),
         },
     ]
 

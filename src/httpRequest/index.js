@@ -63,11 +63,11 @@ export function GET(url) {
     })
 }
 
-export function POST(resource, data) {
+export function POST(url, data) {
     return new Promise((reslove, reject) => {
         if (!reqSetting.server) return reject(`ERROR: please use init() to set the server url`)
         // Request url
-        let url = `${reqSetting.server}/${resource}`
+        // let url = `${reqSetting.server}/${resource}`
         // Request option
         let option = buildOption({
             method: 'POST',
@@ -76,6 +76,7 @@ export function POST(resource, data) {
                 'Content-Type': 'application/json',
             },
         })
+        console.log(url)
         // Request
         fetch(url, option)
             .then(async res => {
@@ -92,11 +93,11 @@ export function POST(resource, data) {
     })
 }
 
-export function PUT(resource, data) {
+export function PUT(url, data) {
     return new Promise((reslove, reject) => {
         if (!reqSetting.server) return reject(`ERROR: please use init() to set the server url`)
         // Request url
-        let url = `${reqSetting.server}/${resource}`
+        // let url = `${reqSetting.server}/${resource}`
         // Request option
         let option = buildOption({
             method: 'PUT',
@@ -120,12 +121,12 @@ export function PUT(resource, data) {
             })
     })
 }
-export function DELETE(resource) {
+export function DELETE(url) {
     return new Promise((reslove, reject) => {
         if (!reqSetting.server) return reject(`ERROR: please use init() to set the server url`)
         // Request url
-        let url = `${reqSetting.server}/${resource}`
-        console.log(url)
+        // let url = `${reqSetting.server}/${resource}`
+
         // Request option
         let option = buildOption({
             method: 'DELETE',

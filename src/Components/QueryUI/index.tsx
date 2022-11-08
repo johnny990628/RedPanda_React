@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input, Descriptions, Select, Button, Slider, Form, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import RESOURCES from '../../Configs/Resources.config.json'
@@ -182,6 +182,10 @@ const HTTPSelector = ({ value, valueOnChange }: { value: string; valueOnChange: 
 
 const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, inputJsonChange }: QueryUIProps) => {
     const { TextArea } = Input
+
+    useEffect(() => {
+        console.log(querys)
+    }, [querys])
     return (
         <>
             <Descriptions title="RedPanda" bordered>
