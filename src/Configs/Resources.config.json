@@ -2,7 +2,7 @@
     {
         "type": "Patient",
         "cols": [
-            { "label": "_id", "key": "patient_id" },
+            { "label": "id", "key": "patient_id" },
             { "label": "birthDate", "key": "patient_birthDate" },
             { "label": "gender", "key": "patient_gender" },
             { "label": "identifier", "key": "patient_identifier" },
@@ -13,7 +13,7 @@
     {
         "type": "Condition",
         "cols": [
-            { "label": "_id", "key": "condition_id" },
+            { "label": "id", "key": "condition_id" },
             { "label": "clinical-status", "key": "condition_clinical-status" },
             { "label": "code", "key": "condition_code" },
             { "label": "subject", "key": "condition_subject" },
@@ -25,7 +25,7 @@
     {
         "type": "DiagnosticReport",
         "cols": [
-            { "label": "_id", "key": "diagnosticreport_id" },
+            { "label": "id", "key": "diagnosticreport_id" },
             { "label": "status", "key": "diagnosticreport_status" },
             { "label": "subject", "key": "diagnosticreport_subject" },
             { "label": "category", "key": "diagnosticreport_category" },
@@ -36,7 +36,7 @@
     {
         "type": "Encounter",
         "cols": [
-            { "label": "_id", "key": "encounter_id" },
+            { "label": "id", "key": "encounter_id" },
             { "label": "class", "key": "encounter_class" },
             { "label": "date", "key": "encounter_date" },
             { "label": "identifier", "key": "encounter_identifier" },
@@ -48,14 +48,14 @@
     {
         "type": "Medication",
         "cols": [
-            { "label": "_id", "key": "medication_id" },
+            { "label": "id", "key": "medication_id" },
             { "label": "code", "key": "medication_code" }
         ]
     },
     {
         "type": "MedicationRequest",
         "cols": [
-            { "label": "_id", "key": "medicationrequest_id" },
+            { "label": "id", "key": "medicationrequest_id" },
             { "label": "status", "key": "medicationrequest_status" },
             { "label": "intent", "key": "medicationrequest_intent" },
             { "label": "subject", "key": "medicationrequest_subject" },
@@ -67,7 +67,7 @@
     {
         "type": "Observation",
         "cols": [
-            { "label": "_id", "key": "observation_id" },
+            { "label": "id", "key": "observation_id" },
             { "label": "category", "key": "observation_category" },
             { "label": "code", "key": "observation_code" },
             { "label": "date", "key": "observation_date" },
@@ -79,7 +79,7 @@
     {
         "type": "Organization",
         "cols": [
-            { "label": "_id", "key": "organization_id" },
+            { "label": "id", "key": "organization_id" },
             { "label": "identifier", "key": "organization_identifier" },
             { "label": "name", "key": "organization_name" },
             { "label": "type", "key": "organization_type" }
@@ -88,7 +88,7 @@
     {
         "type": "Practitioner",
         "cols": [
-            { "label": "_id", "key": "practitioner_id" },
+            { "label": "id", "key": "practitioner_id" },
             { "label": "identifier", "key": "practitioner_identifier" },
             { "label": "name", "key": "practitioner_name" }
         ]
@@ -96,7 +96,7 @@
     {
         "type": "Procedure",
         "cols": [
-            { "label": "_id", "key": "procedure_id" },
+            { "label": "id", "key": "procedure_id" },
             { "label": "code", "key": "procedure_code" },
             { "label": "status", "key": "procedure_status" },
             { "label": "subject", "key": "procedure_subject" },

@@ -180,10 +180,8 @@ const HTTPSelector = ({ value, valueOnChange }: { value: string; valueOnChange: 
     )
 }
 
-
-
 const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, inputJsonChange }: QueryUIProps) => {
-    const { TextArea } = Input;
+    const { TextArea } = Input
     return (
         <>
             <Descriptions title="RedPanda" bordered>
@@ -214,7 +212,7 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, input
                     <Input value={querys.id} onChange={e => valueOnChange('id', e.target.value)} />
                 </Descriptions.Item>
 
-                {querys.HTTP === "GET" ? (
+                {querys.HTTP === 'GET' ? (
                     <>
                         <Descriptions.Item label="Sort By">
                             <SortBySelector
@@ -224,30 +222,43 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, input
                             />
                         </Descriptions.Item>
                         <Descriptions.Item label="Page Count" span={2}>
-                            <Slider value={querys.pageCount} min={5} max={200} step={5} onChange={value => valueOnChange('pageCount', value)} />
+                            <Slider
+                                value={querys.pageCount}
+                                min={5}
+                                max={200}
+                                step={5}
+                                onChange={value => valueOnChange('pageCount', value)}
+                            />
                         </Descriptions.Item>
                         <Descriptions.Item label="Search Parameters" span={1.5}>
                             <SearchParameterSelector
-                                options={RESOURCES.find(res => res.type === querys.resourceType)?.cols}
+                                options={RESOURCES.find(res => res.type === querys.resourceType)?.cols?.filter(res => res.label !== 'id')}
                                 valueOnChange={valueOnChange}
                             />
                         </Descriptions.Item>
                     </>
-                ) : (<></>)}
-
+                ) : (
+                    <></>
+                )}
 
                 <Descriptions.Item label="Token" span={4}>
                     <Input value={querys.token} onChange={e => valueOnChange('token', e.target.value)} />
                 </Descriptions.Item>
 
-
-                {querys.HTTP === "POST" || querys.HTTP === "PUT" ? (
+                {querys.HTTP === 'POST' || querys.HTTP === 'PUT' ? (
                     <Descriptions.Item label="JSON" span={4}>
-                        <TextArea rows={15} placeholder="input JSON" value={inputJson} onChange={(e) => { inputJsonChange(e.target.value) }} />
+                        <TextArea
+                            rows={15}
+                            placeholder="input JSON"
+                            value={inputJson}
+                            onChange={e => {
+                                inputJsonChange(e.target.value)
+                            }}
+                        />
                     </Descriptions.Item>
-                ) : (<></>)}
-
-
+                ) : (
+                    <></>
+                )}
             </Descriptions>
         </>
     )

@@ -15,7 +15,7 @@ function App() {
         resourceType: RESOURCES[0].type,
         id: '',
         token: '',
-        sortBy: '_id',
+        sortBy: 'id',
         pageCount: 20,
         parameters: [],
         headers: [],
@@ -23,52 +23,36 @@ function App() {
     const [querys, setQuerys] = useState<QueryType>(initialQuerys)
     const [JSONData, setJSONData] = useState<[] | {}>([])
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [fetchJson, setFetchJson] = useState<[] | {}>([])//存取response的json
-    const [fetchJsonParameters, setFetchJsonParameters] = useState<[] | {}>({})//提供給httpRequest的參數專用
-    const [fetchJsonHeader, setFetchJsonHeader] = useState<[] | {}>({})//提供給httpRequest的Header參數專用
-    const [inputJson, setInputJson] = useState<string>("")
+    const [fetchJson, setFetchJson] = useState<[] | {}>([]) //存取response的json
+
+    const [inputJson, setInputJson] = useState<string>('')
     //修改resourceType，使用useEffect是因為title 會更新
     useEffect(() => {
         sendRequest()
     }, [querys.resourceType])
 
-    //修改parameters參數
-    useEffect(() => {
-        const obj: any = {}
-        const headers: any = {}
-        //若是帶入ID 則不可帶入參數
-        if (querys.id.length > 0) {
-            obj._id = querys.id
-        } else {
-            obj._count = querys.pageCount //每頁顯示幾筆
-            querys.parameters.map((item: { parameter: string, value: string }) => {
-                if (item.value !== "") obj[item.parameter] = item.value  //若value為空則不帶入參數
-            })
-        }
-        if (querys.headers.length > 0) {
-            querys.headers.map((item: { header: string, value: string }) => {
-                if (item.header) headers[item.header] = item.value || ""
-            })
-        }
-        setFetchJsonParameters(obj)
-        setFetchJsonHeader(headers)
-    }, [querys.parameters, querys.pageCount, querys.id, querys.headers])
-
-    const openNotification = (title: number, value: string, id: string) => {
-        const colorType = () => {
-            if (title >= 200 && title < 300) {
-                return "blue"
-            } else { return "red" }
-        }
+    const openNotification = ({ statusCode, message, color }: { statusCode: number; message: string; color: string }) => {
         notification.open({
-            message: <>Server response：<Tag color={colorType()}>{title}</Tag></>,
-            description: `${value}ID: ${id}`,
-        });
-    };
+            message: (
+                <>
+                    Server response：<Tag color={color}>{statusCode}</Tag>
+                </>
+            ),
+            description: `${message}`,
+        })
+    }
 
-    const error = () => {
-        message.error('Error：please check console');
-    };
+    const responseHandler = (res: any) => {
+        const message = res.data.msg ? res.data.msg : res?.issue?.map((i: any) => i.diagnostics).toString()
+
+        if (res.status >= 200 && res.status < 300)
+            openNotification({
+                statusCode: res.status,
+                message: `Successful`,
+                color: 'blue',
+            })
+        else openNotification({ statusCode: res.status, message, color: 'red' })
+    }
 
     const changeJSONData = (data: {} | []) => {
         setJSONData(data)
@@ -98,7 +82,7 @@ function App() {
 
         const params = `?${`_sort=${sortBy}`}&${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
 
-        const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${params}`
+        const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}${id ? '' : params}`
 
         setQuerys({
             ...querys,
@@ -114,28 +98,41 @@ function App() {
     const sendRequest = () => {
         init({ server: querys.serverURL, token: querys.token, resourceType: querys.resourceType })
         switch (querys.HTTP) {
-            case "GET":
-                GET(querys.resourceType, fetchJsonParameters, fetchJsonHeader).then(res => {
-                    const data = (res.data.entry) ? res.data.entry : []
-                    setFetchJson(data)
-                })
-                break;
-            case "POST":
-                POST(querys.resourceType, inputJson).then((res: { status: number, text: string, data: { id: string } }) => {
-                    openNotification(res.status, res.text, res.data.id)
-                }).catch(() => error())
-                break;
-            case "PUT":
-                PUT(querys.resourceType + "?_id=" + querys.id, inputJson).then((res: { status: number, text: string, data: { id: string } }) => {
-                    openNotification(res.status, res.text, res.data.id)
-                }).catch(() => error())
-                break;
-            case "DELETE":
-                DELETE(querys.resourceType + "?_id=" + querys.id).then((res: { status: number, text: string, data: { id: string } }) => {
-                    openNotification(res.status, res.text, res.data.id)
-                }).catch(() => error())
-                break;
-
+            case 'GET':
+                GET(querys.URL)
+                    .then(res => {
+                        let data = []
+                        if (querys.id) data = [{ resource: res.data }]
+                        else data = res.data.entry?.length > 0 ? res.data.entry : []
+                        setFetchJson(data)
+                        responseHandler(res)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' })
+                    })
+                break
+            case 'POST':
+                POST(querys.resourceType, inputJson)
+                    .then(res => {
+                        responseHandler(res)
+                    })
+                    .catch(err => openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' }))
+                break
+            case 'PUT':
+                PUT(querys.resourceType + '/' + querys.id, inputJson)
+                    .then(res => {
+                        responseHandler(res)
+                    })
+                    .catch(err => openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' }))
+                break
+            case 'DELETE':
+                DELETE(querys.resourceType + '/' + querys.id)
+                    .then(res => {
+                        responseHandler(res)
+                    })
+                    .catch(err => openNotification({ statusCode: 404, message: 'Bad Request', color: 'red' }))
+                break
         }
     }
 
@@ -143,14 +140,26 @@ function App() {
         setInputJson(value)
     }
 
-
     return (
         <div style={{ padding: '1rem' }}>
-            <QueryUI querys={querys} valueOnChange={valueOnChange} onReset={onReset} sendRequest={sendRequest} inputJsonChange={inputJsonChange} inputJson={inputJson} />
+            <QueryUI
+                querys={querys}
+                valueOnChange={valueOnChange}
+                onReset={onReset}
+                sendRequest={sendRequest}
+                inputJsonChange={inputJsonChange}
+                inputJson={inputJson}
+            />
 
             {/* 只有GET顯示下方Table*/}
-            {querys.HTTP === "GET" ? <><JSONTable openModal={openModal} querys={querys.resourceType} changeJSONData={changeJSONData} fetchJson={fetchJson} />
-                <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} /></> : <></>}
+            {querys.HTTP === 'GET' ? (
+                <>
+                    <JSONTable openModal={openModal} querys={querys.resourceType} changeJSONData={changeJSONData} fetchJson={fetchJson} />
+                    <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} />
+                </>
+            ) : (
+                <></>
+            )}
         </div>
     )
 }
