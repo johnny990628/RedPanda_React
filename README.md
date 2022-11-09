@@ -4,7 +4,7 @@
 Redpanda is a HL7 FHIR client 
 
 
-![](https://github.com/johnny990628/GHL_Frontend/blob/master/public/ghl.gif)
+![](https://github.com/johnny990628/RedPanda_React/blob/master/Redpanda.png)
 
 
 ## Installation
