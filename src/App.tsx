@@ -29,6 +29,10 @@ function App() {
     const [inputJson, setInputJson] = useState<string>('')
 
     useEffect(() => {
+        sendRequest()
+    }, [querys.resourceType])
+
+    useEffect(() => {
         if (querys.HTTP !== HTTP.GET) {
             const { serverURL, resourceType, id } = querys
             const URL = `${serverURL}/${resourceType}${id ? `/${id}` : ''}`
