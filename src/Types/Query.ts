@@ -7,6 +7,7 @@ export enum HTTP {
 
 export type QueryType = {
     HTTP: string
+    URLHeader: string
     URL: string
     serverURL: string
     resourceType: string

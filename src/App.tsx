@@ -10,8 +10,9 @@ import JSONModal from './Components/JSONModal'
 function App() {
     const initialQuerys: QueryType = {
         HTTP: HTTP.GET,
+        URLHeader: 'https://',
         URL: 'https://',
-        serverURL: 'https://',
+        serverURL: '',
         resourceType: RESOURCES[0].type,
         id: '',
         token: '',
@@ -86,6 +87,7 @@ function App() {
     }
 
     const valueOnChange = (columnName: string, value: string | number | ParameterType[]): void => {
+        const URLHeader = columnName === 'URLHeader' ? value : querys.URLHeader
         const serverURL = columnName === 'serverURL' ? value : querys.serverURL
         const resourceType = columnName === 'resourceType' ? value : querys.resourceType
         const id = columnName === 'id' ? value : querys.id
@@ -103,8 +105,8 @@ function App() {
         const params = `?${`_count=${pageCount}`}${parameters?.length ? '&' : ''}${parameters?.join('&')}`
         const URL =
             querys.HTTP === HTTP.GET
-                ? `${serverURL}/${resourceType}${id ? `/${id}` : ''}${id ? '' : params}`
-                : `${serverURL}/${resourceType}${id ? `/${id}` : ''}`
+                ? `${URLHeader}${serverURL}/${resourceType}${id ? `/${id}` : ''}${id ? '' : params}`
+                : `${URLHeader}${serverURL}/${resourceType}${id ? `/${id}` : ''}`
 
         setQuerys({
             ...querys,

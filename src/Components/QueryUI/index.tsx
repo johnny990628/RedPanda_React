@@ -193,6 +193,13 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, updat
         updateInputJson(formatValue)
     }
 
+    const SelectBefore = (
+        <Select defaultValue="https://" onChange={value => valueOnChange('URLHeader', value)}>
+            <Option value="http://">http://</Option>
+            <Option value="https://">https://</Option>
+        </Select>
+    )
+
     return (
         <>
             <Descriptions title="RedPanda" bordered>
@@ -213,7 +220,7 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, updat
                     </Space>
                 </Descriptions.Item>
                 <Descriptions.Item label="Server URL">
-                    <Input value={querys.serverURL} onChange={e => valueOnChange('serverURL', e.target.value)} />
+                    <Input addonBefore={SelectBefore} value={querys.serverURL} onChange={e => valueOnChange('serverURL', e.target.value)} />
                 </Descriptions.Item>
                 <Descriptions.Item label="Resource Type">
                     <ResourceTypeSelector value={querys.resourceType} valueOnChange={valueOnChange} />
