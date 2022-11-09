@@ -180,12 +180,19 @@ const HTTPSelector = ({ value, valueOnChange }: { value: string; valueOnChange: 
     )
 }
 
-const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, inputJsonChange }: QueryUIProps) => {
+const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, updateInputJson }: QueryUIProps) => {
     const { TextArea } = Input
 
-    useEffect(() => {
-        console.log(querys)
-    }, [querys])
+    const textAreaOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value
+        updateInputJson(value)
+    }
+    const formatJSON = () => {
+        const obj = JSON.parse(inputJson)
+        const formatValue = JSON.stringify(obj, undefined, 4)
+        updateInputJson(formatValue)
+    }
+
     return (
         <>
             <Descriptions title="RedPanda" bordered>
@@ -251,14 +258,10 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, input
 
                 {querys.HTTP === 'POST' || querys.HTTP === 'PUT' ? (
                     <Descriptions.Item label="JSON" span={4}>
-                        <TextArea
-                            rows={15}
-                            placeholder="input JSON"
-                            value={inputJson}
-                            onChange={e => {
-                                inputJsonChange(e.target.value)
-                            }}
-                        />
+                        <Button style={{ marginBottom: '1rem' }} onClick={formatJSON}>
+                            Format JSON
+                        </Button>
+                        <TextArea rows={15} placeholder="input JSON" value={inputJson} onChange={textAreaOnChange} />
                     </Descriptions.Item>
                 ) : (
                     <></>

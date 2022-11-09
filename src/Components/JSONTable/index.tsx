@@ -70,6 +70,8 @@ const JSONTable = ({
 
     const switchToPUT = (record: any) => {
         updateQueryData({ HTTP: HTTP.PUT, id: record.id, resourceType: record.resourceType })
+
+        delete record['key']
         updateInputJson(JSON.stringify(record))
     }
     const switchToDELETE = (record: any) => {

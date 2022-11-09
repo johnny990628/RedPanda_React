@@ -26,10 +26,7 @@ function App() {
     const [fetchJson, setFetchJson] = useState<[] | {}>([]) //存取response的json
 
     const [inputJson, setInputJson] = useState<string>('')
-    //修改resourceType，使用useEffect是因為title 會更新
-    // useEffect(() => {
-    //     sendRequest()
-    // }, [querys.resourceType])
+
     useEffect(() => {
         if (querys.HTTP !== HTTP.GET) {
             const { serverURL, resourceType, id } = querys
@@ -65,7 +62,8 @@ function App() {
         else openNotification({ statusCode: res.status, message, color: 'red' })
     }
 
-    const changeJSONData = (data: {} | []) => {
+    const changeJSONData = (data: any) => {
+        delete data['key']
         setJSONData(data)
     }
 
@@ -74,7 +72,9 @@ function App() {
     }
 
     const updateInputJson = (data: string) => {
-        setInputJson(data)
+        const obj = JSON.parse(data)
+        const formatValue = JSON.stringify(obj, undefined, 4)
+        setInputJson(formatValue)
     }
 
     const openModal = () => {
@@ -126,6 +126,7 @@ function App() {
                         let data = []
                         if (querys.id) data = [{ resource: res.data }]
                         else data = res.data.entry?.length > 0 ? res.data.entry : []
+
                         setFetchJson(data)
                         responseHandler(res)
                     })
@@ -155,10 +156,6 @@ function App() {
         }
     }
 
-    const inputJsonChange = (value: string): void => {
-        setInputJson(value)
-    }
-
     return (
         <div style={{ padding: '1rem' }}>
             <QueryUI
@@ -166,13 +163,13 @@ function App() {
                 valueOnChange={valueOnChange}
                 onReset={onReset}
                 sendRequest={sendRequest}
-                inputJsonChange={inputJsonChange}
+                updateInputJson={updateInputJson}
                 inputJson={inputJson}
             />
 
             {/* 只有GET顯示下方Table*/}
-            {querys.HTTP === 'GET' ? (
-                <>
+            {querys.HTTP === 'GET' && (
+                <div style={{ marginTop: '1rem' }}>
                     <JSONTable
                         openModal={openModal}
                         querys={querys.resourceType}
@@ -182,9 +179,7 @@ function App() {
                         updateInputJson={updateInputJson}
                     />
                     <JSONModal json={JSONData} isModalOpen={isModalOpen} openModal={openModal} closeModal={closeModal} />
-                </>
-            ) : (
-                <></>
+                </div>
             )}
         </div>
     )
