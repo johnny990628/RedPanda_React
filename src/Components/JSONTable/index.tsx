@@ -211,7 +211,7 @@ const JSONTable = ({
             expandedRowKeys={[expendedIndex]}
             dataSource={fetchJson.map((d: { resource: object }, i: number) => ({ key: i, ...d.resource }))}
             pagination={false}
-            scroll={{ x: window.innerWidth }}
+            scroll={{ x: window.innerWidth, y: 500 }}
         />
     )
 }

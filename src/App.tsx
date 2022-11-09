@@ -158,18 +158,20 @@ function App() {
 
     return (
         <div style={{ padding: '1rem' }}>
-            <QueryUI
-                querys={querys}
-                valueOnChange={valueOnChange}
-                onReset={onReset}
-                sendRequest={sendRequest}
-                updateInputJson={updateInputJson}
-                inputJson={inputJson}
-            />
+            <div>
+                <QueryUI
+                    querys={querys}
+                    valueOnChange={valueOnChange}
+                    onReset={onReset}
+                    sendRequest={sendRequest}
+                    updateInputJson={updateInputJson}
+                    inputJson={inputJson}
+                />
+            </div>
 
             {/* 只有GET顯示下方Table*/}
             {querys.HTTP === 'GET' && (
-                <div style={{ marginTop: '1rem' }}>
+                <div style={{ marginTop: '2rem' }}>
                     <JSONTable
                         openModal={openModal}
                         querys={querys.resourceType}
