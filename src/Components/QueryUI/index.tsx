@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Descriptions, Select, Button, Slider, Form, Space } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusOutlined, AlignLeftOutlined } from '@ant-design/icons'
 import RESOURCES from '../../Configs/Resources.config.json'
 
 import { ColumnType, ResourceType, ParameterType, QueryUIProps } from '../../Types/Query'
@@ -230,7 +230,7 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, updat
                     <Input value={querys.id} onChange={e => valueOnChange('id', e.target.value)} />
                 </Descriptions.Item>
 
-                {querys.HTTP === 'GET' ? (
+                {querys.HTTP === 'GET' && (
                     <>
                         <Descriptions.Item label="Sort By">
                             <SortBySelector
@@ -255,8 +255,6 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, updat
                             />
                         </Descriptions.Item>
                     </>
-                ) : (
-                    <></>
                 )}
 
                 <Descriptions.Item label="Token" span={4}>
@@ -265,8 +263,8 @@ const QueryUI = ({ querys, valueOnChange, onReset, sendRequest, inputJson, updat
 
                 {querys.HTTP === 'POST' || querys.HTTP === 'PUT' ? (
                     <Descriptions.Item label="JSON" span={4}>
-                        <Button style={{ marginBottom: '1rem' }} onClick={formatJSON}>
-                            Format JSON
+                        <Button style={{ marginBottom: '1rem' }} icon={<AlignLeftOutlined />} onClick={formatJSON}>
+                            Format
                         </Button>
                         <TextArea rows={15} placeholder="input JSON" value={inputJson} onChange={textAreaOnChange} />
                     </Descriptions.Item>
